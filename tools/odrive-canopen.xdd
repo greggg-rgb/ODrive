@@ -15,7 +15,7 @@
         <ProfileTechnology>CANopen</ProfileTechnology>
       </ISO15745Reference>
     </ProfileHeader>
-    <ProfileBody xmlns:q1="http://www.canopen.org/xml/1.1" xsi:type="q1:ProfileBody_Device_CANopen" formatName="CANopen" formatVersion="1.0" fileName="odrive.xdd" fileCreator="" fileCreationDate="2026-01-07" fileCreationTime="00:33:01.0000000+07:00" fileModifiedBy="" fileModificationDate="2026-01-07" fileModificationTime="04:59:25.5380294+07:00" fileVersion="1" supportedLanguages="en" xmlns="">
+    <ProfileBody xmlns:q1="http://www.canopen.org/xml/1.1" xsi:type="q1:ProfileBody_Device_CANopen" formatName="CANopen" formatVersion="1.0" fileName="odrive-canopen.xdd" fileCreator="" fileCreationDate="2026-01-07" fileCreationTime="00:33:01.0000000+07:00" fileModifiedBy="" fileModificationDate="2026-01-07" fileModificationTime="05:47:35.6067028+07:00" fileVersion="1" supportedLanguages="en" xmlns="">
       <q1:DeviceIdentity>
         <q1:vendorName></q1:vendorName>
         <q1:vendorID></q1:vendorID>
@@ -2003,6 +2003,13 @@ The life time factor multiplied with the guard time gives the life time for the 
             <q1:defaultValue value="0" />
             <q1:property name="CO_accessSRDO" value="tx" />
           </q1:parameter>
+          <q1:parameter uniqueID="UID_OBJ_603F">
+            <description lang="en">This object provides the error code of the last error which occurred in the drive device.
+</description>
+            <UINT />
+            <q1:defaultValue value="0" />
+            <q1:property name="CO_accessSRDO" value="tx" />
+          </q1:parameter>
           <q1:parameter uniqueID="UID_OBJ_6040" access="readWriteOutput">
             <description lang="en">Commands state changes (Enable, Stop, Fault Reset).
 Bit 0: Switch On, Part of the state transition command.
@@ -2149,7 +2156,7 @@ The commanded speed for the motor in user units. Used only when 6060h = 3 (Profi
         <ProfileTechnology>CANopen</ProfileTechnology>
       </ISO15745Reference>
     </ProfileHeader>
-    <ProfileBody xmlns:q2="http://www.canopen.org/xml/1.1" xsi:type="q2:ProfileBody_CommunicationNetwork_CANopen" formatName="CANopen" formatVersion="1.0" fileName="odrive.xdd" fileCreator="" fileCreationDate="2026-01-07" fileCreationTime="00:33:01.0000000+07:00" fileModificationDate="2026-01-07" fileModificationTime="04:59:25.5380294+07:00" fileVersion="1" supportedLanguages="en" xmlns="">
+    <ProfileBody xmlns:q2="http://www.canopen.org/xml/1.1" xsi:type="q2:ProfileBody_CommunicationNetwork_CANopen" formatName="CANopen" formatVersion="1.0" fileName="odrive-canopen.xdd" fileCreator="" fileCreationDate="2026-01-07" fileCreationTime="00:33:01.0000000+07:00" fileModificationDate="2026-01-07" fileModificationTime="05:47:35.6067028+07:00" fileVersion="1" supportedLanguages="en" xmlns="">
       <ApplicationLayers>
         <q2:CANopenObjectList>
           <CANopenObject index="1000" name="Device type" objectType="7" PDOmapping="no" uniqueIDRef="UID_OBJ_1000" />
@@ -2430,6 +2437,7 @@ The commanded speed for the motor in user units. Used only when 6060h = 3 (Profi
           <CANopenObject index="2010" name="Trajectory Inertia" objectType="7" PDOmapping="RPDO" uniqueIDRef="UID_OBJ_2010" />
           <CANopenObject index="2100" name="Bus Voltage" objectType="7" PDOmapping="TPDO" uniqueIDRef="UID_OBJ_2100" />
           <CANopenObject index="2101" name="Bus current" objectType="7" PDOmapping="TPDO" uniqueIDRef="UID_OBJ_2101" />
+          <CANopenObject index="603F" name="Error code" objectType="7" PDOmapping="TPDO" uniqueIDRef="UID_OBJ_603F" />
           <CANopenObject index="6040" name="Controlword" objectType="7" PDOmapping="RPDO" uniqueIDRef="UID_OBJ_6040" />
           <CANopenObject index="6041" name="Statusword" objectType="7" PDOmapping="TPDO" uniqueIDRef="UID_OBJ_6041" />
           <CANopenObject index="6060" name="Modes of Operation" objectType="7" PDOmapping="RPDO" uniqueIDRef="UID_OBJ_6060" />

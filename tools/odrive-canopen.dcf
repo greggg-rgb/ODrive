@@ -1,14 +1,14 @@
 [FileInfo]
-FileName=odrive.dcf
+FileName=odrive-canopen.dcf
 FileVersion=1
 FileRevision=1
-LastEDS=D:\Engineering\Misc\Files\odrive.eds
+LastEDS=
 EDSVersion=4.0
 Description=
 CreationTime=12:33AM
 CreationDate=01-07-2026
 CreatedBy=
-ModificationTime=4:59AM
+ModificationTime=5:47AM
 ModificationDate=01-07-2026
 ModifiedBy=
 
@@ -149,7 +149,7 @@ ParameterValue=
 PDOMapping=0
 
 [OptionalObjects]
-SupportedObjects=45
+SupportedObjects=46
 1=0x1003
 2=0x1005
 3=0x1006
@@ -180,21 +180,22 @@ SupportedObjects=45
 28=0x1A01
 29=0x1A02
 30=0x1A03
-31=0x6040
-32=0x6041
-33=0x6060
-34=0x6061
-35=0x6064
-36=0x606C
-37=0x6071
-38=0x6072
-39=0x6077
-40=0x607A
-41=0x607F
-42=0x6081
-43=0x6083
-44=0x6084
-45=0x60FF
+31=0x603F
+32=0x6040
+33=0x6041
+34=0x6060
+35=0x6061
+36=0x6064
+37=0x606C
+38=0x6071
+39=0x6072
+40=0x6077
+41=0x607A
+42=0x607F
+43=0x6081
+44=0x6083
+45=0x6084
+46=0x60FF
 
 [1003]
 ParameterName=Pre-defined error field
@@ -2142,6 +2143,17 @@ AccessType=rw
 DefaultValue=0x00000000
 ParameterValue=
 PDOMapping=0
+
+[603F]
+ParameterName=Error code
+Denotation=
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0006
+AccessType=ro
+DefaultValue=0
+ParameterValue=
+PDOMapping=1
 
 [6040]
 ParameterName=Controlword
