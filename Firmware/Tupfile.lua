@@ -218,6 +218,22 @@ stm32_usb_device_library_pkg = {
     }
 }
 
+local lely_base = "ThirdParty/lely-build-output"
+lely_core_pkg = {
+    root = "lely_base",
+    include_dirs = {"include"},
+    -- Linker needs the actual .a files
+    ldflags = {
+        lely_base.."/lib/liblely-can.a",
+        lely_base.."/lib/liblely-co.a",
+        lely_base.."/lib/liblely-ev.a",
+        lely_base.."/lib/liblely-io2.a",
+        lely_base.."/lib/liblely-libc.a",
+        lely_base.."/lib/liblely-tap.a",
+        lely_base.."/lib/liblely-util.a"
+    }
+}
+
 crypto_pkg = {
     root = 'Private',
     include_dirs = {
@@ -401,7 +417,6 @@ if tup.getconfig("USE_LTO") == "true" then
     CFLAGS += '-flto'
 end
 
-
 -- Generate Tup Rules ----------------------------------------------------------
 
 python_command = find_python3()
@@ -432,7 +447,7 @@ add_pkg(cmsis_pkg)
 add_pkg(stm32_usb_device_library_pkg)
 add_pkg(fibre_pkg)
 add_pkg(odrive_firmware_pkg)
-
+add_pkg(lely_core_pkg)
 
 for _, src_file in pairs(code_files) do
     obj_file = "build/obj/"..src_file:gsub("/","_"):gsub("%.","")..".o"
