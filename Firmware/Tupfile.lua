@@ -44,7 +44,7 @@ function compile(src_file, obj_file)
     tup.frule{
         inputs={src_file},
         extra_inputs = {'autogen/interfaces.hpp', 'autogen/function_stubs.hpp', 'autogen/endpoints.hpp', 'autogen/type_info.hpp'},
-        command='^o^ '..compiler..' -c %f '..tostring(CFLAGS)..' -o %o',
+        command='^o^ '..compiler..' -c %f '..table.concat(CFLAGS, " ")..' -o %o',
         outputs={obj_file}
     }
 end
@@ -68,6 +68,7 @@ odrive_firmware_pkg = {
         'fibre-cpp/include',
     },
     code_files = {
+        'rt.c',
         'syscalls.c',
         'MotorControl/utils.cpp',
         'MotorControl/arm_sin_f32.c',
@@ -93,6 +94,8 @@ odrive_firmware_pkg = {
         'Drivers/STM32/stm32_nvm.c',
         'Drivers/STM32/stm32_spi_arbiter.cpp',
         'communication/can/can_simple.cpp',
+        'communication/can/canopen.cpp',
+        'communication/can/canopen_od.c',
         'communication/can/odrive_can.cpp',    
         'communication/communication.cpp',
         'communication/ascii_protocol.cpp',
@@ -220,17 +223,21 @@ stm32_usb_device_library_pkg = {
 
 local lely_base = "ThirdParty/lely-build-output"
 lely_core_pkg = {
-    root = "lely_base",
+    root = lely_base,
     include_dirs = {"include"},
-    -- Linker needs the actual .a files
+    cflags = {
+        "-D__NEWLIB__",
+        "-D__timespec_defined", 
+        "-D_TIMESPEC_DEFINED"
+    },
     ldflags = {
-        lely_base.."/lib/liblely-can.a",
-        lely_base.."/lib/liblely-co.a",
-        lely_base.."/lib/liblely-ev.a",
-        lely_base.."/lib/liblely-io2.a",
-        lely_base.."/lib/liblely-libc.a",
-        lely_base.."/lib/liblely-tap.a",
-        lely_base.."/lib/liblely-util.a"
+        "-L" .. lely_base .. "/lib",
+        "-llely-co",
+        "-llely-can",
+        "-llely-io2",
+        "-llely-ev",
+        "-llely-util",
+        "-llely-libc",    
     }
 }
 
@@ -440,14 +447,13 @@ tup.frule{inputs={'fibre-cpp/function_stubs_template.j2', extra_inputs='odrive-i
 tup.frule{inputs={'fibre-cpp/endpoints_template.j2', extra_inputs='odrive-interface.yaml'}, command=python_command..' interface_generator_stub.py --definitions odrive-interface.yaml --generate-endpoints '..root_interface..' --template %f --output %o', outputs='autogen/endpoints.hpp'}
 tup.frule{inputs={'fibre-cpp/type_info_template.j2', extra_inputs='odrive-interface.yaml'}, command=python_command..' interface_generator_stub.py --definitions odrive-interface.yaml --template %f --output %o', outputs='autogen/type_info.hpp'}
 
-
+add_pkg(lely_core_pkg)
 add_pkg(board)
 add_pkg(freertos_pkg)
 add_pkg(cmsis_pkg)
 add_pkg(stm32_usb_device_library_pkg)
 add_pkg(fibre_pkg)
 add_pkg(odrive_firmware_pkg)
-add_pkg(lely_core_pkg)
 
 for _, src_file in pairs(code_files) do
     obj_file = "build/obj/"..src_file:gsub("/","_"):gsub("%.","")..".o"
@@ -457,7 +463,7 @@ end
 
 tup.frule{
     inputs=object_files,
-    command='^o^ '..LINKER..' %f '..tostring(CFLAGS)..' '..tostring(LDFLAGS)..
+    command='^o^ '..LINKER..' %f '..table.concat(CFLAGS, " ")..' '..table.concat(LDFLAGS, " ")..
             ' -Wl,-Map=%O.map -o %o',
     outputs={'build/ODriveFirmware.elf', extra_outputs={'build/ODriveFirmware.map'}}
 }

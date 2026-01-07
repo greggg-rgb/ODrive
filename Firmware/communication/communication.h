@@ -1,8 +1,9 @@
 #ifndef COMMANDS_H
 #define COMMANDS_H
 
-// TODO: resolve assert
+#ifndef assert
 #define assert(expr)
+#endif
 
 #ifdef __cplusplus
 

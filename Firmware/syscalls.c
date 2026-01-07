@@ -6,6 +6,8 @@
  */
 
 #include <board.h>
+#include <rt.h>
+#include <sys/stat.h>
 #include <sys/time.h>
 #include <sys/times.h>
 #include <sys/unistd.h>
@@ -87,30 +89,76 @@ int _times(struct tms* buf) {
 }
 
 // For lely-core's timespec_get implementation
-int clock_gettime(clockid_t clk_id, struct timespec* tp) {
-    (void)clk_id;
+int clock_gettime(clockid_t clock_id, struct timespec* tp) {
+    if (clock_id != CLOCK_REALTIME && clock_id != CLOCK_MONOTONIC) {
+        return -1;
+    }
+
+    TickType_t ticks = xTaskGetTickCount();
+
+    // Convert FreeRTOS ticks to seconds/nanoseconds
+    tp->tv_sec = ticks / configTICK_RATE_HZ;
+    tp->tv_nsec = (ticks % configTICK_RATE_HZ) * (1000000000L / configTICK_RATE_HZ);
+
+    if (clock_id == CLOCK_REALTIME) {
+        // Apply the offset saved during settime
+        tp->tv_sec += __librt_realtime_offset.tv_sec;
+        tp->tv_nsec += __librt_realtime_offset.tv_nsec;
+
+        // Final normalization
+        if (tp->tv_nsec >= 1000000000L) {
+            tp->tv_sec++;
+            tp->tv_nsec -= 1000000000L;
+        } else if (tp->tv_nsec < 0) {
+            tp->tv_sec--;
+            tp->tv_nsec += 1000000000L;
+        }
+    }
+
+    return 0;
+}
+
+int clock_getres(clockid_t clock_id, struct timespec* tp) {
+    if (clock_id != CLOCK_REALTIME) {
+        return -1;
+    }
     if (tp) {
-        uint32_t ticks = xTaskGetTickCount();
-        tp->tv_sec = ticks / 1000;
-        tp->tv_nsec = (ticks % 1000) * 1000000;
+        tp->tv_sec = 0;
+        tp->tv_nsec = 1000000000L / configTICK_RATE_HZ;
     }
     return 0;
 }
 
-int clock_getres(clockid_t clk_id, struct timespec* res) {
-    (void)clk_id;
-    if (res) {
-        res->tv_sec = 0;
-        res->tv_nsec = 1000000;  // 1ms resolution
+int clock_settime(clockid_t clock_id, const struct timespec* tp) {
+    // Also validate nanosecond range [0, 999,999,999]
+    if (tp->tv_nsec < 0 || tp->tv_nsec >= 1000000000L) {
+        return -1;
     }
+
+    struct timespec mono;
+    // Get current monotonic time to calculate the new offset
+    clock_gettime(CLOCK_MONOTONIC, &mono);
+
+    /* * Critical Section: Prevents any other task (like your CANopen stack)
+     * from calling clock_gettime() and reading a partially updated offset.
+     */
+    vPortEnterCritical();
+
+    __librt_realtime_offset.tv_sec = tp->tv_sec - mono.tv_sec;
+    __librt_realtime_offset.tv_nsec = tp->tv_nsec - mono.tv_nsec;
+
+    // Normalize the offset so tv_nsec is always positive [0, 999,999,999]
+    if (__librt_realtime_offset.tv_nsec < 0) {
+        __librt_realtime_offset.tv_sec--;
+        __librt_realtime_offset.tv_nsec += 1000000000L;
+    } else if (__librt_realtime_offset.tv_nsec >= 1000000000L) {
+        __librt_realtime_offset.tv_sec++;
+        __librt_realtime_offset.tv_nsec -= 1000000000L;
+    }
+
+    vPortExitCritical();
+
     return 0;
-}
-
-int clock_settime(clockid_t clk_id, const struct timespec* tp) {
-    (void)clk_id;
-    (void)tp;
-
-    return -1;
 }
 
 int _getpid(void) {
@@ -122,5 +170,14 @@ int _kill(int pid, int sig) {
     (void)sig;
     return -1;
 }
+
+int _close(int file) { return -1; }
+int _fstat(int file, struct stat* st) {
+    st->st_mode = S_IFCHR;
+    return 0;
+}
+int _isatty(int file) { return 1; }
+int _lseek(int file, int ptr, int dir) { return 0; }
+int _read(int file, char* ptr, int len) { return 0; }
 
 // _write is defined in communication.cpp

@@ -10,7 +10,6 @@
 // #include <unordered_map>
 // std::unordered_map<CAN_HandleTypeDef *, ODriveCAN *> ctxMap;
 
-
 bool ODriveCAN::apply_config() {
     config_.parent = this;
     set_baud_rate(config_.baud_rate);
@@ -20,9 +19,7 @@ bool ODriveCAN::apply_config() {
 bool ODriveCAN::reinit() {
     HAL_CAN_Stop(handle_);
     HAL_CAN_ResetError(handle_);
-    return (HAL_CAN_Init(handle_) == HAL_OK)
-        && (HAL_CAN_Start(handle_) == HAL_OK)
-        && (HAL_CAN_ActivateNotification(handle_, CAN_IT_RX_FIFO0_MSG_PENDING | CAN_IT_RX_FIFO1_MSG_PENDING | CAN_IT_TX_MAILBOX_EMPTY) == HAL_OK);
+    return (HAL_CAN_Init(handle_) == HAL_OK) && (HAL_CAN_Start(handle_) == HAL_OK) && (HAL_CAN_ActivateNotification(handle_, CAN_IT_RX_FIFO0_MSG_PENDING | CAN_IT_RX_FIFO1_MSG_PENDING | CAN_IT_TX_MAILBOX_EMPTY) == HAL_OK);
 }
 
 bool ODriveCAN::start_server(CAN_HandleTypeDef* handle) {
@@ -43,20 +40,22 @@ bool ODriveCAN::start_server(CAN_HandleTypeDef* handle) {
 }
 
 void ODriveCAN::can_server_thread() {
-    Protocol protocol = config_.protocol;
+    // Protocol protocol = config_.protocol;
 
-    if (protocol & PROTOCOL_SIMPLE) {
-        can_simple_.init();
-    }
+    // if (protocol & PROTOCOL_SIMPLE) {
+    //     can_simple_.init();
+    // }
+    canopen_.init();
 
     for (;;) {
         uint32_t status = HAL_CAN_GetError(handle_);
         if (status == HAL_CAN_ERROR_NONE) {
             uint32_t next_service_time = UINT32_MAX;
 
-            if (protocol & PROTOCOL_SIMPLE) {
-                next_service_time = std::min(can_simple_.service_stack(), next_service_time);
-            }
+            // if (protocol & PROTOCOL_SIMPLE) {
+            //     next_service_time = std::min(can_simple_.service_stack(), next_service_time);
+            // }
+            next_service_time = std::min(canopen_.service_stack(), next_service_time);
 
             process_rx_fifo(CAN_RX_FIFO0);
             process_rx_fifo(CAN_RX_FIFO1);
@@ -124,7 +123,7 @@ void ODriveCAN::process_rx_fifo(uint32_t fifo) {
 }
 
 // Send a CAN message on the bus
-bool ODriveCAN::send_message(const can_Message_t &txmsg) {
+bool ODriveCAN::send_message(const can_Message_t& txmsg) {
     if (HAL_CAN_GetError(handle_) != HAL_CAN_ERROR_NONE) {
         return false;
     }
@@ -141,13 +140,13 @@ bool ODriveCAN::send_message(const can_Message_t &txmsg) {
     if (!HAL_CAN_GetTxMailboxesFreeLevel(handle_)) {
         return false;
     }
-    
+
     return HAL_CAN_AddTxMessage(handle_, &header, (uint8_t*)txmsg.buf, &retTxMailbox) == HAL_OK;
 }
 
-//void ODriveCAN::set_error(Error error) {
-//    error_ |= error;
-//}
+// void ODriveCAN::set_error(Error error) {
+//     error_ |= error;
+// }
 
 bool ODriveCAN::subscribe(const MsgIdFilterSpecs& filter, on_can_message_cb_t callback, void* ctx, CanSubscription** handle) {
     auto it = std::find_if(subscriptions_.begin(), subscriptions_.end(), [](auto& subscription) {
@@ -155,22 +154,19 @@ bool ODriveCAN::subscribe(const MsgIdFilterSpecs& filter, on_can_message_cb_t ca
     });
 
     if (it == subscriptions_.end()) {
-        return false; // all subscription slots in use
+        return false;  // all subscription slots in use
     }
 
     it->callback = callback;
     it->ctx = ctx;
-    it->fifo = CAN_RX_FIFO0; // TODO: make customizable
+    it->fifo = CAN_RX_FIFO0;  // TODO: make customizable
     if (handle) {
         *handle = &*it;
     }
 
     bool is_extended = filter.id.index() == 1;
-    uint32_t id = is_extended ?
-                  ((std::get<1>(filter.id) << 3) | (1 << 2)) :
-                  (std::get<0>(filter.id) << 21);
-    uint32_t mask = (is_extended ? (filter.mask << 3) : (filter.mask << 21))
-                  | (1 << 2); // care about the is_extended bit
+    uint32_t id = is_extended ? ((std::get<1>(filter.id) << 3) | (1 << 2)) : (std::get<0>(filter.id) << 21);
+    uint32_t mask = (is_extended ? (filter.mask << 3) : (filter.mask << 21)) | (1 << 2);  // care about the is_extended bit
 
     CAN_FilterTypeDef hal_filter;
     hal_filter.FilterActivation = ENABLE;
@@ -195,7 +191,7 @@ bool ODriveCAN::unsubscribe(CanSubscription* handle) {
         return false;
     }
     if (subscription->fifo != kCanFifoNone) {
-        return false; // not in use
+        return false;  // not in use
     }
 
     subscription->fifo = kCanFifoNone;
@@ -205,34 +201,34 @@ bool ODriveCAN::unsubscribe(CanSubscription* handle) {
     return HAL_CAN_ConfigFilter(handle_, &hal_filter) == HAL_OK;
 }
 
-void HAL_CAN_TxMailbox0CompleteCallback(CAN_HandleTypeDef *hcan) {
+void HAL_CAN_TxMailbox0CompleteCallback(CAN_HandleTypeDef* hcan) {
     HAL_CAN_DeactivateNotification(hcan, CAN_IT_TX_MAILBOX_EMPTY);
     osSemaphoreRelease(sem_can);
 }
-void HAL_CAN_TxMailbox1CompleteCallback(CAN_HandleTypeDef *hcan) {
+void HAL_CAN_TxMailbox1CompleteCallback(CAN_HandleTypeDef* hcan) {
     HAL_CAN_DeactivateNotification(hcan, CAN_IT_TX_MAILBOX_EMPTY);
     osSemaphoreRelease(sem_can);
 }
-void HAL_CAN_TxMailbox2CompleteCallback(CAN_HandleTypeDef *hcan) {
+void HAL_CAN_TxMailbox2CompleteCallback(CAN_HandleTypeDef* hcan) {
     HAL_CAN_DeactivateNotification(hcan, CAN_IT_TX_MAILBOX_EMPTY);
     osSemaphoreRelease(sem_can);
 }
-void HAL_CAN_TxMailbox0AbortCallback(CAN_HandleTypeDef *hcan) {}
-void HAL_CAN_TxMailbox1AbortCallback(CAN_HandleTypeDef *hcan) {}
-void HAL_CAN_TxMailbox2AbortCallback(CAN_HandleTypeDef *hcan) {}
-void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) {
+void HAL_CAN_TxMailbox0AbortCallback(CAN_HandleTypeDef* hcan) {}
+void HAL_CAN_TxMailbox1AbortCallback(CAN_HandleTypeDef* hcan) {}
+void HAL_CAN_TxMailbox2AbortCallback(CAN_HandleTypeDef* hcan) {}
+void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan) {
     HAL_CAN_DeactivateNotification(hcan, CAN_IT_RX_FIFO0_MSG_PENDING);
     osSemaphoreRelease(sem_can);
 }
-void HAL_CAN_RxFifo0FullCallback(CAN_HandleTypeDef *hcan) {
+void HAL_CAN_RxFifo0FullCallback(CAN_HandleTypeDef* hcan) {
     HAL_CAN_DeactivateNotification(hcan, CAN_IT_RX_FIFO1_MSG_PENDING);
     osSemaphoreRelease(sem_can);
 }
-void HAL_CAN_RxFifo1MsgPendingCallback(CAN_HandleTypeDef *hcan) {}
-void HAL_CAN_RxFifo1FullCallback(CAN_HandleTypeDef *hcan) {}
-void HAL_CAN_SleepCallback(CAN_HandleTypeDef *hcan) {}
-void HAL_CAN_WakeUpFromRxMsgCallback(CAN_HandleTypeDef *hcan) {}
+void HAL_CAN_RxFifo1MsgPendingCallback(CAN_HandleTypeDef* hcan) {}
+void HAL_CAN_RxFifo1FullCallback(CAN_HandleTypeDef* hcan) {}
+void HAL_CAN_SleepCallback(CAN_HandleTypeDef* hcan) {}
+void HAL_CAN_WakeUpFromRxMsgCallback(CAN_HandleTypeDef* hcan) {}
 
-void HAL_CAN_ErrorCallback(CAN_HandleTypeDef *hcan) {
-    //HAL_CAN_ResetError(hcan);
+void HAL_CAN_ErrorCallback(CAN_HandleTypeDef* hcan) {
+    // HAL_CAN_ResetError(hcan);
 }
