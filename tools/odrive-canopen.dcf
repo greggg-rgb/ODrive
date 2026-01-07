@@ -8,13 +8,13 @@ Description=
 CreationTime=12:33AM
 CreationDate=01-07-2026
 CreatedBy=
-ModificationTime=5:47AM
+ModificationTime=6:24AM
 ModificationDate=01-07-2026
 ModifiedBy=
 
 [DeviceInfo]
-VendorName=
-VendorNumber=
+VendorName=None
+VendorNumber=0x0000
 ProductName=ODrive-Custom
 ProductNumber=0x0001
 RevisionNumber=0
@@ -35,7 +35,6 @@ GroupMessaging=0
 NrOfRXPDO=4
 NrOfTXPDO=4
 LSS_Supported=1
-NG_Slave=1
 
 [DummyUsage]
 Dummy0001=0
@@ -50,9 +49,9 @@ Dummy0007=0
 Lines=0
 
 [DeviceComissioning]
-NodeID=0
-NodeName=
-Baudrate=0
+NodeID=1
+NodeName=ODrive-Servo
+Baudrate=500
 NetNumber=0
 NetworkName=
 CANopenManager=0

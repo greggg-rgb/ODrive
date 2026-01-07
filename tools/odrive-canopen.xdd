@@ -15,10 +15,10 @@
         <ProfileTechnology>CANopen</ProfileTechnology>
       </ISO15745Reference>
     </ProfileHeader>
-    <ProfileBody xmlns:q1="http://www.canopen.org/xml/1.1" xsi:type="q1:ProfileBody_Device_CANopen" formatName="CANopen" formatVersion="1.0" fileName="odrive-canopen.xdd" fileCreator="" fileCreationDate="2026-01-07" fileCreationTime="00:33:01.0000000+07:00" fileModifiedBy="" fileModificationDate="2026-01-07" fileModificationTime="05:47:35.6067028+07:00" fileVersion="1" supportedLanguages="en" xmlns="">
+    <ProfileBody xmlns:q1="http://www.canopen.org/xml/1.1" xsi:type="q1:ProfileBody_Device_CANopen" formatName="CANopen" formatVersion="1.0" fileName="odrive-canopen.xdd" fileCreator="" fileCreationDate="2026-01-07" fileCreationTime="00:33:01.0000000+07:00" fileModifiedBy="" fileModificationDate="2026-01-07" fileModificationTime="22:37:00.9256812+07:00" fileVersion="1" supportedLanguages="en" xmlns="">
       <q1:DeviceIdentity>
-        <q1:vendorName></q1:vendorName>
-        <q1:vendorID></q1:vendorID>
+        <q1:vendorName>None</q1:vendorName>
+        <q1:vendorID>0x0000</q1:vendorID>
         <q1:productName>ODrive-Custom</q1:productName>
         <q1:productID>0x0001</q1:productID>
         <q1:version versionType="SW">0</q1:version>
@@ -2037,12 +2037,12 @@ Bit 7: Fault Reset. Toggle from 0 to 1 to clear a latched error.</description>
           </q1:parameter>
           <q1:parameter uniqueID="UID_OBJ_6060" access="readWriteOutput">
             <description lang="en">Selects the active control profile.
-1: Position (PPM)
-3: Velocity (PVM)
-4: Torque (TPM)
-254: Trapezoidal trajectory control
-
-Note: Trapezoidal trajectory is not defined in CiA402</description>
+1: Profile position mode (PPM)
+3: Profile velocity mode(PVM)
+4: Torque profile mode
+8: Cyclic synchronous position
+9: Cyclic synchronous velocity
+10: Cyclic synchronous torque</description>
             <SINT />
             <q1:defaultValue value="0" />
             <q1:property name="CO_accessSRDO" value="rx" />
@@ -2156,7 +2156,7 @@ The commanded speed for the motor in user units. Used only when 6060h = 3 (Profi
         <ProfileTechnology>CANopen</ProfileTechnology>
       </ISO15745Reference>
     </ProfileHeader>
-    <ProfileBody xmlns:q2="http://www.canopen.org/xml/1.1" xsi:type="q2:ProfileBody_CommunicationNetwork_CANopen" formatName="CANopen" formatVersion="1.0" fileName="odrive-canopen.xdd" fileCreator="" fileCreationDate="2026-01-07" fileCreationTime="00:33:01.0000000+07:00" fileModificationDate="2026-01-07" fileModificationTime="05:47:35.6067028+07:00" fileVersion="1" supportedLanguages="en" xmlns="">
+    <ProfileBody xmlns:q2="http://www.canopen.org/xml/1.1" xsi:type="q2:ProfileBody_CommunicationNetwork_CANopen" formatName="CANopen" formatVersion="1.0" fileName="odrive-canopen.xdd" fileCreator="" fileCreationDate="2026-01-07" fileCreationTime="00:33:01.0000000+07:00" fileModificationDate="2026-01-07" fileModificationTime="22:37:00.9256812+07:00" fileVersion="1" supportedLanguages="en" xmlns="">
       <ApplicationLayers>
         <q2:CANopenObjectList>
           <CANopenObject index="1000" name="Device type" objectType="7" PDOmapping="no" uniqueIDRef="UID_OBJ_1000" />
@@ -2472,7 +2472,7 @@ The commanded speed for the motor in user units. Used only when 6060h = 3 (Profi
         </PhysicalLayer>
       </TransportLayers>
       <NetworkManagement>
-        <CANopenGeneralFeatures granularity="8" nrOfRxPDO="4" nrOfTxPDO="4" ngSlave="true" layerSettingServiceSlave="true" />
+        <CANopenGeneralFeatures granularity="8" nrOfRxPDO="4" nrOfTxPDO="4" layerSettingServiceSlave="true" />
         <CANopenMasterFeatures />
       </NetworkManagement>
     </ProfileBody>
