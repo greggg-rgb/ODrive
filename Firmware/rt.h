@@ -6,11 +6,11 @@
 #include "FreeRTOS.h"
 
 #ifndef CLOCK_REALTIME
-#define CLOCK_REALTIME 0
+#define CLOCK_REALTIME 1
 #endif
 
 #ifndef CLOCK_MONOTONIC
-#define CLOCK_MONOTONIC 1
+#define CLOCK_MONOTONIC 2
 #endif
 
 // Offset used to calculate CLOCK_REALTIME from CLOCK_MONOTONIC
