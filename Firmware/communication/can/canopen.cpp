@@ -155,6 +155,10 @@ bool CANopen::init() {
     if (sub) co_sub_set_dn_ind(sub, &sdo_dn_6071, this);
 
     // Setup SDO upload callbacks (reads from master)
+    // 0x603F: Error code
+    sub = co_dev_find_sub(dev_, 0x603F, 0x00);
+    if (sub) co_sub_set_up_ind(sub, &sdo_up_603F, this);
+
     // 0x6041: Statusword
     sub = co_dev_find_sub(dev_, 0x6041, 0x00);
     if (sub) co_sub_set_up_ind(sub, &sdo_up_6041, this);
@@ -349,6 +353,40 @@ co_unsigned32_t CANopen::sdo_dn_6071(co_sub_t* sub, struct co_sdo_req* req, void
 
     co_sub_dn(sub, &val);
     co_val_fini(type, &val);
+    return ac;
+}
+
+// SDO upload callback: 0x603F Error code
+co_unsigned32_t CANopen::sdo_up_603F(const co_sub_t* sub, struct co_sdo_req* req, void* data) {
+    co_unsigned16_t type = co_sub_get_type(sub);
+
+    co_unsigned16_t err_code = 0;
+
+    // Only report general error
+    // TODO: Report detailed error
+    Axis& axis = axes[0];
+    if (axis.motor_.error_) {
+        // Set motor error
+        err_code |= (1 << 0);
+    }
+
+    if (axis.controller_.error_) {
+        // Set controller error
+        err_code |= (1 << 1);
+    }
+
+    if (axis.encoder_.error_) {
+        // Set encoder error
+        err_code |= (1 << 2);
+    }
+
+    if (axis.error_) {
+        // Set axis error
+        err_code |= (1 << 3);
+    }
+
+    co_unsigned32_t ac = 0;
+    co_sdo_req_up_val(req, type, &err_code, &ac);
     return ac;
 }
 
@@ -695,7 +733,7 @@ void CANopen::prepare_tpdo2() {
     }
 }
 
-// Prepare TPDO3: Statusword and mode display (0x6041, 0x6061)
+// Prepare TPDO3: Statusword, mode display and error code (0x6041, 0x6061, 0x603F)
 void CANopen::prepare_tpdo3() {
     using namespace CIA402;
     if (!dev_) return;
@@ -762,6 +800,36 @@ void CANopen::prepare_tpdo3() {
     sub = co_dev_find_sub(dev_, 0x6061, 0x00);
     if (sub) {
         co_sub_set_val_i8(sub, mode_display);
+    }
+
+    // Update error codes
+    co_unsigned16_t err_code = 0;
+
+    // Only report general error
+    // TODO: Report detailed error
+    if (axis.motor_.error_) {
+        // Set motor error
+        err_code |= (1 << 0);
+    }
+
+    if (axis.controller_.error_) {
+        // Set controller error
+        err_code |= (1 << 1);
+    }
+
+    if (axis.encoder_.error_) {
+        // Set encoder error
+        err_code |= (1 << 2);
+    }
+
+    if (axis.error_) {
+        // Set axis error
+        err_code |= (1 << 3);
+    }
+
+    sub = co_dev_find_sub(dev_, 0x603F, 0x00);
+    if (sub) {
+        co_sub_set_val_u16(sub, err_code);
     }
 }
 

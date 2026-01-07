@@ -15,7 +15,7 @@
         <ProfileTechnology>CANopen</ProfileTechnology>
       </ISO15745Reference>
     </ProfileHeader>
-    <ProfileBody xmlns:q1="http://www.canopen.org/xml/1.1" xsi:type="q1:ProfileBody_Device_CANopen" formatName="CANopen" formatVersion="1.0" fileName="odrive-canopen.xdd" fileCreator="" fileCreationDate="2026-01-07" fileCreationTime="00:33:01.0000000+07:00" fileModifiedBy="" fileModificationDate="2026-01-07" fileModificationTime="22:37:00.9256812+07:00" fileVersion="1" supportedLanguages="en" xmlns="">
+    <ProfileBody xmlns:q1="http://www.canopen.org/xml/1.1" xsi:type="q1:ProfileBody_Device_CANopen" formatName="CANopen" formatVersion="1.0" fileName="odrive-canopen.xdd" fileCreator="" fileCreationDate="2026-01-07" fileCreationTime="00:33:01.0000000+07:00" fileModifiedBy="" fileModificationDate="2026-01-08" fileModificationTime="06:50:30.2202103+07:00" fileVersion="1" supportedLanguages="en" xmlns="">
       <q1:DeviceIdentity>
         <q1:vendorName>None</q1:vendorName>
         <q1:vendorID>0x0000</q1:vendorID>
@@ -1885,7 +1885,7 @@ The life time factor multiplied with the guard time gives the life time for the 
           <q1:parameter uniqueID="UID_SUB_1A0200" access="readWrite">
             <label lang="en">Number of mapped application objects in PDO</label>
             <USINT />
-            <q1:defaultValue value="2" />
+            <q1:defaultValue value="3" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_SUB_1A0201" access="readWrite">
             <label lang="en">Application object 1</label>
@@ -1900,7 +1900,7 @@ The life time factor multiplied with the guard time gives the life time for the 
           <q1:parameter uniqueID="UID_SUB_1A0203" access="readWrite">
             <label lang="en">Application object 3</label>
             <UDINT />
-            <q1:defaultValue value="0x00000000" />
+            <q1:defaultValue value="0x603F0010" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_SUB_1A0204" access="readWrite">
             <label lang="en">Application object 4</label>
@@ -2030,6 +2030,7 @@ Bit 7: Fault Reset. Toggle from 0 to 1 to clear a latched error.</description>
 • Bit 4: Voltage Enabled (Main DC OK)
 • Bit 5: Quick Stop (Low Active)
 • Bit 6: Switch On Disabled
+• Bit 7: Warning
 • Bit 10: Target Reached.</description>
             <UINT />
             <q1:defaultValue value="0" />
@@ -2156,7 +2157,7 @@ The commanded speed for the motor in user units. Used only when 6060h = 3 (Profi
         <ProfileTechnology>CANopen</ProfileTechnology>
       </ISO15745Reference>
     </ProfileHeader>
-    <ProfileBody xmlns:q2="http://www.canopen.org/xml/1.1" xsi:type="q2:ProfileBody_CommunicationNetwork_CANopen" formatName="CANopen" formatVersion="1.0" fileName="odrive-canopen.xdd" fileCreator="" fileCreationDate="2026-01-07" fileCreationTime="00:33:01.0000000+07:00" fileModificationDate="2026-01-07" fileModificationTime="22:37:00.9256812+07:00" fileVersion="1" supportedLanguages="en" xmlns="">
+    <ProfileBody xmlns:q2="http://www.canopen.org/xml/1.1" xsi:type="q2:ProfileBody_CommunicationNetwork_CANopen" formatName="CANopen" formatVersion="1.0" fileName="odrive-canopen.xdd" fileCreator="" fileCreationDate="2026-01-07" fileCreationTime="00:33:01.0000000+07:00" fileModificationDate="2026-01-08" fileModificationTime="06:50:30.2202103+07:00" fileVersion="1" supportedLanguages="en" xmlns="">
       <ApplicationLayers>
         <q2:CANopenObjectList>
           <CANopenObject index="1000" name="Device type" objectType="7" PDOmapping="no" uniqueIDRef="UID_OBJ_1000" />

@@ -8,8 +8,8 @@ Description=
 CreationTime=12:33AM
 CreationDate=01-07-2026
 CreatedBy=
-ModificationTime=6:24AM
-ModificationDate=01-07-2026
+ModificationTime=6:50AM
+ModificationDate=01-08-2026
 ModifiedBy=
 
 [DeviceInfo]
@@ -50,8 +50,8 @@ Lines=0
 
 [DeviceComissioning]
 NodeID=1
-NodeName=ODrive-Servo
-Baudrate=500
+NodeName=
+Baudrate=0
 NetNumber=0
 NetworkName=
 CANopenManager=0
@@ -1945,7 +1945,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0005
 AccessType=rw
-DefaultValue=2
+DefaultValue=3
 ParameterValue=
 PDOMapping=0
 
@@ -1978,7 +1978,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=rw
-DefaultValue=0x00000000
+DefaultValue=0x603F0010
 ParameterValue=
 PDOMapping=0
 
