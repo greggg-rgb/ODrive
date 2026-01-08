@@ -35,7 +35,7 @@ autoreconf -i
 mkdir -p "$BUILD_DIR"
 cd "$BUILD_DIR"
 
-# 1. Configure (only if Makefile doesn't exist to save time)
+# Configure
 if [ ! -f Makefile ]; then
     ../configure --host=arm-none-eabi \
         CFLAGS="$MY_CFLAGS" CXXFLAGS="$MY_CFLAGS" LDFLAGS="$MY_LDFLAGS" \
@@ -47,6 +47,9 @@ if [ ! -f Makefile ]; then
         ac_cv_struct_itimerspec=yes
 fi
 
-# 2. Build and Install to the local install folder
+# Build and Install to the local install folder
 make -j$(nproc)
 make install
+
+# Cleanup build directory to avoid pollution
+rm -rf "$BUILD_DIR"
