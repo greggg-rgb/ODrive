@@ -131,6 +131,7 @@ class CANopen {
     static co_unsigned32_t sdo_dn_607A(co_sub_t* sub, struct co_sdo_req* req, void* data);
     static co_unsigned32_t sdo_dn_60FF(co_sub_t* sub, struct co_sdo_req* req, void* data);
     static co_unsigned32_t sdo_dn_6071(co_sub_t* sub, struct co_sdo_req* req, void* data);
+    static co_unsigned32_t sdo_dn_6072(co_sub_t* sub, struct co_sdo_req* req, void* data);
     static co_unsigned32_t sdo_dn_6060(co_sub_t* sub, struct co_sdo_req* req, void* data);
 
     static co_unsigned32_t sdo_up_603F(const co_sub_t* sub, struct co_sdo_req* req, void* data);

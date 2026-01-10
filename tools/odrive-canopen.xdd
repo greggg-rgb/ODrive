@@ -15,7 +15,7 @@
         <ProfileTechnology>CANopen</ProfileTechnology>
       </ISO15745Reference>
     </ProfileHeader>
-    <ProfileBody xmlns:q1="http://www.canopen.org/xml/1.1" xsi:type="q1:ProfileBody_Device_CANopen" formatName="CANopen" formatVersion="1.0" fileName="odrive-canopen.xdd" fileCreator="" fileCreationDate="2026-01-07" fileCreationTime="00:33:01.0000000+07:00" fileModifiedBy="" fileModificationDate="2026-01-08" fileModificationTime="06:50:30.2202103+07:00" fileVersion="1" supportedLanguages="en" xmlns="">
+    <ProfileBody xmlns:q1="http://www.canopen.org/xml/1.1" xsi:type="q1:ProfileBody_Device_CANopen" formatName="CANopen" formatVersion="1.0" fileName="odrive-canopen.xdd" fileCreator="" fileCreationDate="2026-01-07" fileCreationTime="00:33:01.0000000+07:00" fileModifiedBy="" fileModificationDate="2026-01-11" fileModificationTime="03:59:10.4928111+07:00" fileVersion="1" supportedLanguages="en" xmlns="">
       <q1:DeviceIdentity>
         <q1:vendorName>None</q1:vendorName>
         <q1:vendorID>0x0000</q1:vendorID>
@@ -1207,7 +1207,7 @@ The life time factor multiplied with the guard time gives the life time for the 
           <q1:parameter uniqueID="UID_SUB_140001" access="readWrite">
             <label lang="en">COB-ID used by RPDO</label>
             <UDINT />
-            <q1:defaultValue value="$NODEID+0x200" />
+            <q1:defaultValue value="$NODEID+0x201" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_SUB_140002" access="readWrite">
             <label lang="en">Transmission type</label>
@@ -1242,7 +1242,7 @@ The life time factor multiplied with the guard time gives the life time for the 
           <q1:parameter uniqueID="UID_SUB_140101" access="readWrite">
             <label lang="en">COB-ID used by RPDO</label>
             <UDINT />
-            <q1:defaultValue value="$NODEID+0x300" />
+            <q1:defaultValue value="$NODEID+0x301" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_SUB_140102" access="readWrite">
             <label lang="en">Transmission type</label>
@@ -1277,7 +1277,7 @@ The life time factor multiplied with the guard time gives the life time for the 
           <q1:parameter uniqueID="UID_SUB_140201" access="readWrite">
             <label lang="en">COB-ID used by RPDO</label>
             <UDINT />
-            <q1:defaultValue value="$NODEID+0x400" />
+            <q1:defaultValue value="$NODEID+0x401" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_SUB_140202" access="readWrite">
             <label lang="en">Transmission type</label>
@@ -1312,7 +1312,7 @@ The life time factor multiplied with the guard time gives the life time for the 
           <q1:parameter uniqueID="UID_SUB_140301" access="readWrite">
             <label lang="en">COB-ID used by RPDO</label>
             <UDINT />
-            <q1:defaultValue value="$NODEID+0x500" />
+            <q1:defaultValue value="$NODEID+0x501" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_SUB_140302" access="readWrite">
             <label lang="en">Transmission type</label>
@@ -1581,7 +1581,7 @@ The life time factor multiplied with the guard time gives the life time for the 
           <q1:parameter uniqueID="UID_SUB_180001" access="readWrite">
             <label lang="en">COB-ID used by TPDO</label>
             <UDINT />
-            <q1:defaultValue value="$NODEID+0x40000180" />
+            <q1:defaultValue value="$NODEID+0x40000181" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_SUB_180002" access="readWrite">
             <label lang="en">Transmission type</label>
@@ -1632,7 +1632,7 @@ The life time factor multiplied with the guard time gives the life time for the 
           <q1:parameter uniqueID="UID_SUB_180101" access="readWrite">
             <label lang="en">COB-ID used by TPDO</label>
             <UDINT />
-            <q1:defaultValue value="$NODEID+0x40000280" />
+            <q1:defaultValue value="$NODEID+0x40000281" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_SUB_180102" access="readWrite">
             <label lang="en">Transmission type</label>
@@ -1683,7 +1683,7 @@ The life time factor multiplied with the guard time gives the life time for the 
           <q1:parameter uniqueID="UID_SUB_180201" access="readWrite">
             <label lang="en">COB-ID used by TPDO</label>
             <UDINT />
-            <q1:defaultValue value="$NODEID+0x40000380" />
+            <q1:defaultValue value="$NODEID+0x40000381" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_SUB_180202" access="readWrite">
             <label lang="en">Transmission type</label>
@@ -1734,7 +1734,7 @@ The life time factor multiplied with the guard time gives the life time for the 
           <q1:parameter uniqueID="UID_SUB_180301" access="readWrite">
             <label lang="en">COB-ID used by TPDO</label>
             <UDINT />
-            <q1:defaultValue value="$NODEID+0x40000480" />
+            <q1:defaultValue value="$NODEID+0x40000481" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_SUB_180302" access="readWrite">
             <label lang="en">Transmission type</label>
@@ -1828,7 +1828,7 @@ The life time factor multiplied with the guard time gives the life time for the 
           <q1:parameter uniqueID="UID_SUB_1A0100" access="readWrite">
             <label lang="en">Number of mapped application objects in PDO</label>
             <USINT />
-            <q1:defaultValue value="1" />
+            <q1:defaultValue value="2" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_SUB_1A0101" access="readWrite">
             <label lang="en">Application object 1</label>
@@ -1838,7 +1838,7 @@ The life time factor multiplied with the guard time gives the life time for the 
           <q1:parameter uniqueID="UID_SUB_1A0102" access="readWrite">
             <label lang="en">Application object 2</label>
             <UDINT />
-            <q1:defaultValue value="0x00000000" />
+            <q1:defaultValue value="0x21020020" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_SUB_1A0103" access="readWrite">
             <label lang="en">Application object 3</label>
@@ -2003,6 +2003,12 @@ The life time factor multiplied with the guard time gives the life time for the 
             <q1:defaultValue value="0" />
             <q1:property name="CO_accessSRDO" value="tx" />
           </q1:parameter>
+          <q1:parameter uniqueID="UID_OBJ_2102">
+            <description lang="en">Max motor rated torque, in mN.m</description>
+            <UDINT />
+            <q1:defaultValue value="0" />
+            <q1:property name="CO_accessSRDO" value="tx" />
+          </q1:parameter>
           <q1:parameter uniqueID="UID_OBJ_603F">
             <description lang="en">This object provides the error code of the last error which occurred in the drive device.
 </description>
@@ -2075,14 +2081,13 @@ Provides the actual velocity in user-defined units (e.g., counts/sec or RPM). Fi
           <q1:parameter uniqueID="UID_OBJ_6071" access="readWriteOutput">
             <description lang="en">Torque command input.
 
-
-Target value for the torque controller. Value is scaled in "per mil" (1/1000) of the motor rated torque. Used only when 6060h = 4 or 10.</description>
+Target value for the torque controller. Value is scaled in "per mil" (1/1000) of the motor rated torque. Used only when 6060h = 4 (Torque Profile) or 10 (Cyclic Sync Torque). For Mode 8 or 9 (Cyclic Sync Position/Velocity), this value will be used for feed-forward</description>
             <INT />
             <q1:defaultValue value="0" />
             <q1:property name="CO_accessSRDO" value="rx" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_OBJ_6072" access="readWriteOutput">
-            <description lang="en">Current/Torque Limit. Max allowable torque (in 1/1000 of rated).</description>
+            <description lang="en">Torque Limit. Max allowable torque (in 1/1000 of rated).</description>
             <UDINT />
             <q1:defaultValue value="1000" />
             <q1:property name="CO_storageGroup" value="PERSIST_COMM" />
@@ -2091,15 +2096,13 @@ Target value for the torque controller. Value is scaled in "per mil" (1/1000) of
           <q1:parameter uniqueID="UID_OBJ_6077">
             <description lang="en">Actual torque feedback.
 
-
-The instantaneous torque effort of the motor, scaled in "per mil" (1/1000) of the motor rated torque. Derived from current measurement.</description>
+The instantaneous torque effort of the motor, scaled in "per mil" (1/1000) of the motor rated torque.</description>
             <INT />
             <q1:defaultValue value="0" />
             <q1:property name="CO_accessSRDO" value="tx" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_OBJ_607A" access="readWriteOutput">
             <description lang="en">Position command input.
-
 
 The absolute destination for the drive in user units. In Profile Position Mode (PPM), the move is triggered by a toggle of bit 4 in the Controlword (6040h).
 In Trapezoidal Trajectory Mode, writing to this index acts as a continuous setpoint. If the value differs from the previous SYNC cycle, the trajectory planner re-evaluates the path using current 6081h and 6083h values.</description>
@@ -2135,7 +2138,7 @@ In Trapezoidal Trajectory Mode, writing to this index acts as a continuous setpo
             <description lang="en">Velocity command input.
 
 
-The commanded speed for the motor in user units. Used only when 6060h = 3 (Profile Velocity) or 9 (Cyclic Sync Velocity).</description>
+The commanded speed for the motor in tick/s. Used only when 6060h = 3 (Profile Velocity) or 9 (Cyclic Sync Velocity). For Mode 8 (Cyclic Sync Position), this value will be used for feed-forward</description>
             <DINT />
             <q1:defaultValue value="0" />
             <q1:property name="CO_accessSRDO" value="rx" />
@@ -2157,7 +2160,7 @@ The commanded speed for the motor in user units. Used only when 6060h = 3 (Profi
         <ProfileTechnology>CANopen</ProfileTechnology>
       </ISO15745Reference>
     </ProfileHeader>
-    <ProfileBody xmlns:q2="http://www.canopen.org/xml/1.1" xsi:type="q2:ProfileBody_CommunicationNetwork_CANopen" formatName="CANopen" formatVersion="1.0" fileName="odrive-canopen.xdd" fileCreator="" fileCreationDate="2026-01-07" fileCreationTime="00:33:01.0000000+07:00" fileModificationDate="2026-01-08" fileModificationTime="06:50:30.2202103+07:00" fileVersion="1" supportedLanguages="en" xmlns="">
+    <ProfileBody xmlns:q2="http://www.canopen.org/xml/1.1" xsi:type="q2:ProfileBody_CommunicationNetwork_CANopen" formatName="CANopen" formatVersion="1.0" fileName="odrive-canopen.xdd" fileCreator="" fileCreationDate="2026-01-07" fileCreationTime="00:33:01.0000000+07:00" fileModificationDate="2026-01-11" fileModificationTime="03:59:10.4928111+07:00" fileVersion="1" supportedLanguages="en" xmlns="">
       <ApplicationLayers>
         <q2:CANopenObjectList>
           <CANopenObject index="1000" name="Device type" objectType="7" PDOmapping="no" uniqueIDRef="UID_OBJ_1000" />
@@ -2438,6 +2441,7 @@ The commanded speed for the motor in user units. Used only when 6060h = 3 (Profi
           <CANopenObject index="2010" name="Trajectory Inertia" objectType="7" PDOmapping="RPDO" uniqueIDRef="UID_OBJ_2010" />
           <CANopenObject index="2100" name="Bus Voltage" objectType="7" PDOmapping="TPDO" uniqueIDRef="UID_OBJ_2100" />
           <CANopenObject index="2101" name="Bus current" objectType="7" PDOmapping="TPDO" uniqueIDRef="UID_OBJ_2101" />
+          <CANopenObject index="2102" name="Max Rated Torque" objectType="7" PDOmapping="TPDO" uniqueIDRef="UID_OBJ_2102" />
           <CANopenObject index="603F" name="Error code" objectType="7" PDOmapping="TPDO" uniqueIDRef="UID_OBJ_603F" />
           <CANopenObject index="6040" name="Controlword" objectType="7" PDOmapping="RPDO" uniqueIDRef="UID_OBJ_6040" />
           <CANopenObject index="6041" name="Statusword" objectType="7" PDOmapping="TPDO" uniqueIDRef="UID_OBJ_6041" />

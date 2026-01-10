@@ -154,6 +154,10 @@ bool CANopen::init() {
     sub = co_dev_find_sub(dev_, 0x6071, 0x00);
     if (sub) co_sub_set_dn_ind(sub, &sdo_dn_6071, this);
 
+    // 0x6071: Max torque
+    sub = co_dev_find_sub(dev_, 0x6072, 0x00);
+    if (sub) co_sub_set_dn_ind(sub, &sdo_dn_6072, this);
+
     // Setup SDO upload callbacks (reads from master)
     // 0x603F: Error code
     sub = co_dev_find_sub(dev_, 0x603F, 0x00);
@@ -349,7 +353,30 @@ co_unsigned32_t CANopen::sdo_dn_6071(co_sub_t* sub, struct co_sdo_req* req, void
 
     // Set target torque
     Axis& axis = axes[0];
-    axis.controller_.input_torque_ = static_cast<float>(val.i16) / 1000.0f;
+
+    float max_torque = axis.motor_.effective_current_lim() * axis.motor_.config_.torque_constant;
+    axis.controller_.input_torque_ = max_torque * (static_cast<float>(val.i16) / 1000.0f);
+
+    co_sub_dn(sub, &val);
+    co_val_fini(type, &val);
+    return ac;
+}
+
+// SDO download callback: 0x6072 Max torque
+co_unsigned32_t CANopen::sdo_dn_6072(co_sub_t* sub, struct co_sdo_req* req, void* data) {
+    co_unsigned32_t ac = 0;
+
+    co_unsigned16_t type = co_sub_get_type(sub);
+    union co_val val;
+
+    if (co_sdo_req_dn_val(req, type, &val, &ac) == -1)
+        return ac;
+
+    // Set torque limit. The input is 0.1‰ of rated torque
+    Axis& axis = axes[0];
+
+    float max_torque = axis.motor_.effective_current_lim() * axis.motor_.config_.torque_constant;
+    axis.motor_.config_.torque_lim = (static_cast<float>(val.i16) / 1000.0f) * max_torque;
 
     co_sub_dn(sub, &val);
     co_val_fini(type, &val);
@@ -466,11 +493,15 @@ co_unsigned32_t CANopen::sdo_up_6077(const co_sub_t* sub, struct co_sdo_req* req
     co_unsigned16_t type = co_sub_get_type(sub);
 
     Axis& axis = axes[0];
-    co_integer16_t torque = static_cast<co_integer16_t>(
-        axis.motor_.current_control_.Iq_measured_ * 1000.0f);  // Read Iq current in milliamps instead
+    float max_torque = axis.motor_.effective_current_lim() * axis.motor_.config_.torque_constant;
+    float iq_measured = axis.motor_.current_control_.Iq_measured_;
+    float torque = iq_measured * axis.motor_.config_.torque_constant;
+
+    co_integer16_t torque_per_rated_torque = static_cast<co_integer16_t>(
+        (torque / max_torque) * 1000.0f);  // in 0.1‰ of rated torque
 
     co_unsigned32_t ac = 0;
-    co_sdo_req_up_val(req, type, &torque, &ac);
+    co_sdo_req_up_val(req, type, &torque_per_rated_torque, &ac);
     return ac;
 }
 
@@ -647,7 +678,8 @@ void CANopen::handle_rpdo2(const void* data, size_t n) {
     sub = co_dev_find_sub(dev_, 0x6071, 0x00);
     if (sub) {
         target_torque = co_sub_get_val_i16(sub);
-        axis.controller_.input_torque_ = static_cast<float>(target_torque) / 1000.0f;
+        float max_torque = axis.motor_.effective_current_lim() * axis.motor_.config_.torque_constant;
+        axis.controller_.input_torque_ = max_torque * (static_cast<float>(target_torque) / 1000.0f);
     }
 }
 
@@ -718,18 +750,30 @@ void CANopen::prepare_tpdo1() {
     }
 }
 
-// Prepare TPDO2: Torque actual (0x6077)
+// Prepare TPDO2: Torque actual (0x6077) and Max Motor Rated Torque (0x2102)
 void CANopen::prepare_tpdo2() {
     if (!dev_) return;
 
     Axis& axis = axes[0];
 
     // Update torque actual value
-    co_integer16_t torque = static_cast<co_integer16_t>(
-        axis.motor_.current_control_.Iq_measured_ * 1000.0f);
+    float max_torque = axis.motor_.effective_current_lim() * axis.motor_.config_.torque_constant;
+    float iq_measured = axis.motor_.current_control_.Iq_measured_;
+    float torque = iq_measured * axis.motor_.config_.torque_constant;
+
+    co_integer16_t torque_per_rated_torque = static_cast<co_integer16_t>(
+        (torque / max_torque) * 1000.0f);  // in 0.1‰ of rated torque
+
     co_sub_t* sub = co_dev_find_sub(dev_, 0x6077, 0x00);
     if (sub) {
-        co_sub_set_val_i16(sub, torque);
+        co_sub_set_val_i16(sub, torque_per_rated_torque);
+    }
+
+    // Update Max Motor Rated Torque (mN.m)
+    uint32_t motor_rated_torque = static_cast<co_unsigned32_t>(max_torque * 1000.0f);  // Convert to mN.m
+    sub = co_dev_find_sub(dev_, 0x2102, 0x00);
+    if (sub) {
+        co_sub_set_val_u32(sub, motor_rated_torque);
     }
 }
 

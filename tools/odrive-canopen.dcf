@@ -8,8 +8,8 @@ Description=
 CreationTime=12:33AM
 CreationDate=01-07-2026
 CreatedBy=
-ModificationTime=6:50AM
-ModificationDate=01-08-2026
+ModificationTime=3:58AM
+ModificationDate=01-11-2026
 ModifiedBy=
 
 [DeviceInfo]
@@ -35,6 +35,7 @@ GroupMessaging=0
 NrOfRXPDO=4
 NrOfTXPDO=4
 LSS_Supported=1
+NG_Slave=0
 
 [DummyUsage]
 Dummy0001=0
@@ -824,7 +825,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=rw
-DefaultValue=$NODEID+0x200
+DefaultValue=$NODEID+0x201
 ParameterValue=
 PDOMapping=0
 
@@ -875,7 +876,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=rw
-DefaultValue=$NODEID+0x300
+DefaultValue=$NODEID+0x301
 ParameterValue=
 PDOMapping=0
 
@@ -926,7 +927,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=rw
-DefaultValue=$NODEID+0x400
+DefaultValue=$NODEID+0x401
 ParameterValue=
 PDOMapping=0
 
@@ -977,7 +978,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=rw
-DefaultValue=$NODEID+0x500
+DefaultValue=$NODEID+0x501
 ParameterValue=
 PDOMapping=0
 
@@ -1452,7 +1453,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=rw
-DefaultValue=$NODEID+0x40000180
+DefaultValue=$NODEID+0x40000181
 ParameterValue=
 PDOMapping=0
 
@@ -1525,7 +1526,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=rw
-DefaultValue=$NODEID+0x40000280
+DefaultValue=$NODEID+0x40000281
 ParameterValue=
 PDOMapping=0
 
@@ -1598,7 +1599,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=rw
-DefaultValue=$NODEID+0x40000380
+DefaultValue=$NODEID+0x40000381
 ParameterValue=
 PDOMapping=0
 
@@ -1671,7 +1672,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=rw
-DefaultValue=$NODEID+0x40000480
+DefaultValue=$NODEID+0x40000481
 ParameterValue=
 PDOMapping=0
 
@@ -1839,7 +1840,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0005
 AccessType=rw
-DefaultValue=1
+DefaultValue=2
 ParameterValue=
 PDOMapping=0
 
@@ -1861,7 +1862,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=rw
-DefaultValue=0x00000000
+DefaultValue=0x21020020
 ParameterValue=
 PDOMapping=0
 
@@ -2320,10 +2321,11 @@ ParameterValue=
 PDOMapping=1
 
 [ManufacturerObjects]
-SupportedObjects=3
+SupportedObjects=4
 1=0x2010
 2=0x2100
 3=0x2101
+4=0x2102
 
 [2010]
 ParameterName=Trajectory Inertia
@@ -2353,6 +2355,17 @@ Denotation=
 ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0008
+AccessType=ro
+DefaultValue=0
+ParameterValue=
+PDOMapping=1
+
+[2102]
+ParameterName=Max Rated Torque
+Denotation=
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
 AccessType=ro
 DefaultValue=0
 ParameterValue=

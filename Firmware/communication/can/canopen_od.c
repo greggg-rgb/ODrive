@@ -16,7 +16,7 @@ const struct co_sdev odrive_co = {
 	.rate = 0,
 	.lss = 1,
 	.dummy = 0x00000000,
-	.nobj = 52,
+	.nobj = 53,
 	.objs = (const struct co_sobj[]){{
 #if !LELY_NO_CO_OBJ_NAME
 		.name = CO_SDEV_STRING("Device type"),
@@ -1180,9 +1180,9 @@ const struct co_sdev odrive_co = {
 			.max = { .u32 = CO_UNSIGNED32_MAX },
 #endif
 #if !LELY_NO_CO_OBJ_DEFAULT
-			.def = { .u32 = 0x00000201lu },
+			.def = { .u32 = 0x00000202lu },
 #endif
-			.val = { .u32 = 0x00000201lu },
+			.val = { .u32 = 0x00000202lu },
 			.access = CO_ACCESS_RW,
 			.pdo_mapping = 0,
 			.flags = 0
@@ -1258,9 +1258,9 @@ const struct co_sdev odrive_co = {
 			.max = { .u32 = CO_UNSIGNED32_MAX },
 #endif
 #if !LELY_NO_CO_OBJ_DEFAULT
-			.def = { .u32 = 0x00000301lu },
+			.def = { .u32 = 0x00000302lu },
 #endif
-			.val = { .u32 = 0x00000301lu },
+			.val = { .u32 = 0x00000302lu },
 			.access = CO_ACCESS_RW,
 			.pdo_mapping = 0,
 			.flags = 0
@@ -1336,9 +1336,9 @@ const struct co_sdev odrive_co = {
 			.max = { .u32 = CO_UNSIGNED32_MAX },
 #endif
 #if !LELY_NO_CO_OBJ_DEFAULT
-			.def = { .u32 = 0x00000401lu },
+			.def = { .u32 = 0x00000402lu },
 #endif
-			.val = { .u32 = 0x00000401lu },
+			.val = { .u32 = 0x00000402lu },
 			.access = CO_ACCESS_RW,
 			.pdo_mapping = 0,
 			.flags = 0
@@ -1414,9 +1414,9 @@ const struct co_sdev odrive_co = {
 			.max = { .u32 = CO_UNSIGNED32_MAX },
 #endif
 #if !LELY_NO_CO_OBJ_DEFAULT
-			.def = { .u32 = 0x00000501lu },
+			.def = { .u32 = 0x00000502lu },
 #endif
-			.val = { .u32 = 0x00000501lu },
+			.val = { .u32 = 0x00000502lu },
 			.access = CO_ACCESS_RW,
 			.pdo_mapping = 0,
 			.flags = 0
@@ -2136,9 +2136,9 @@ const struct co_sdev odrive_co = {
 			.max = { .u32 = CO_UNSIGNED32_MAX },
 #endif
 #if !LELY_NO_CO_OBJ_DEFAULT
-			.def = { .u32 = 0x40000181lu },
+			.def = { .u32 = 0x40000182lu },
 #endif
-			.val = { .u32 = 0x40000181lu },
+			.val = { .u32 = 0x40000182lu },
 			.access = CO_ACCESS_RW,
 			.pdo_mapping = 0,
 			.flags = 0
@@ -2248,9 +2248,9 @@ const struct co_sdev odrive_co = {
 			.max = { .u32 = CO_UNSIGNED32_MAX },
 #endif
 #if !LELY_NO_CO_OBJ_DEFAULT
-			.def = { .u32 = 0x40000281lu },
+			.def = { .u32 = 0x40000282lu },
 #endif
-			.val = { .u32 = 0x40000281lu },
+			.val = { .u32 = 0x40000282lu },
 			.access = CO_ACCESS_RW,
 			.pdo_mapping = 0,
 			.flags = 0
@@ -2360,9 +2360,9 @@ const struct co_sdev odrive_co = {
 			.max = { .u32 = CO_UNSIGNED32_MAX },
 #endif
 #if !LELY_NO_CO_OBJ_DEFAULT
-			.def = { .u32 = 0x40000381lu },
+			.def = { .u32 = 0x40000382lu },
 #endif
-			.val = { .u32 = 0x40000381lu },
+			.val = { .u32 = 0x40000382lu },
 			.access = CO_ACCESS_RW,
 			.pdo_mapping = 0,
 			.flags = 0
@@ -2472,9 +2472,9 @@ const struct co_sdev odrive_co = {
 			.max = { .u32 = CO_UNSIGNED32_MAX },
 #endif
 #if !LELY_NO_CO_OBJ_DEFAULT
-			.def = { .u32 = 0x40000481lu },
+			.def = { .u32 = 0x40000482lu },
 #endif
-			.val = { .u32 = 0x40000481lu },
+			.val = { .u32 = 0x40000482lu },
 			.access = CO_ACCESS_RW,
 			.pdo_mapping = 0,
 			.flags = 0
@@ -2728,9 +2728,9 @@ const struct co_sdev odrive_co = {
 			.max = { .u8 = CO_UNSIGNED8_MAX },
 #endif
 #if !LELY_NO_CO_OBJ_DEFAULT
-			.def = { .u8 = 0x01 },
+			.def = { .u8 = 0x02 },
 #endif
-			.val = { .u8 = 0x01 },
+			.val = { .u8 = 0x02 },
 			.access = CO_ACCESS_RW,
 			.pdo_mapping = 0,
 			.flags = 0
@@ -2762,9 +2762,9 @@ const struct co_sdev odrive_co = {
 			.max = { .u32 = CO_UNSIGNED32_MAX },
 #endif
 #if !LELY_NO_CO_OBJ_DEFAULT
-			.def = { .u32 = CO_UNSIGNED32_MIN },
+			.def = { .u32 = 0x21020020lu },
 #endif
-			.val = { .u32 = CO_UNSIGNED32_MIN },
+			.val = { .u32 = 0x21020020lu },
 			.access = CO_ACCESS_RW,
 			.pdo_mapping = 0,
 			.flags = 0
@@ -3264,6 +3264,31 @@ const struct co_sdev odrive_co = {
 			.def = { .r32 = 0 },
 #endif
 			.val = { .r32 = 0 },
+			.access = CO_ACCESS_RO,
+			.pdo_mapping = 1,
+			.flags = 0
+		}}
+	}, {
+#if !LELY_NO_CO_OBJ_NAME
+		.name = CO_SDEV_STRING("Max Rated Torque"),
+#endif
+		.idx = 0x2102,
+		.code = CO_OBJECT_VAR,
+		.nsub = 1,
+		.subs = (const struct co_ssub[]){{
+#if !LELY_NO_CO_OBJ_NAME
+			.name = CO_SDEV_STRING("Max Rated Torque"),
+#endif
+			.subidx = 0x00,
+			.type = CO_DEFTYPE_UNSIGNED32,
+#if !LELY_NO_CO_OBJ_LIMITS
+			.min = { .u32 = CO_UNSIGNED32_MIN },
+			.max = { .u32 = CO_UNSIGNED32_MAX },
+#endif
+#if !LELY_NO_CO_OBJ_DEFAULT
+			.def = { .u32 = CO_UNSIGNED32_MIN },
+#endif
+			.val = { .u32 = CO_UNSIGNED32_MIN },
 			.access = CO_ACCESS_RO,
 			.pdo_mapping = 1,
 			.flags = 0
