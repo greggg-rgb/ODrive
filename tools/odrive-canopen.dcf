@@ -8,7 +8,7 @@ Description=
 CreationTime=12:33AM
 CreationDate=01-07-2026
 CreatedBy=
-ModificationTime=3:58AM
+ModificationTime=11:22PM
 ModificationDate=01-11-2026
 ModifiedBy=
 
@@ -149,7 +149,7 @@ ParameterValue=
 PDOMapping=0
 
 [OptionalObjects]
-SupportedObjects=46
+SupportedObjects=48
 1=0x1003
 2=0x1005
 3=0x1006
@@ -189,13 +189,15 @@ SupportedObjects=46
 37=0x606C
 38=0x6071
 39=0x6072
-40=0x6077
-41=0x607A
-42=0x607F
-43=0x6081
-44=0x6083
-45=0x6084
-46=0x60FF
+40=0x6076
+41=0x6077
+42=0x6079
+43=0x607A
+44=0x607F
+45=0x6081
+46=0x6083
+47=0x6084
+48=0x60FF
 
 [1003]
 ParameterName=Pre-defined error field
@@ -825,7 +827,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=rw
-DefaultValue=$NODEID+0x201
+DefaultValue=$NODEID+0x207
 ParameterValue=
 PDOMapping=0
 
@@ -876,7 +878,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=rw
-DefaultValue=$NODEID+0x301
+DefaultValue=$NODEID+0x307
 ParameterValue=
 PDOMapping=0
 
@@ -927,7 +929,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=rw
-DefaultValue=$NODEID+0x401
+DefaultValue=$NODEID+0x407
 ParameterValue=
 PDOMapping=0
 
@@ -978,7 +980,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=rw
-DefaultValue=$NODEID+0x501
+DefaultValue=$NODEID+0x507
 ParameterValue=
 PDOMapping=0
 
@@ -1453,7 +1455,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=rw
-DefaultValue=$NODEID+0x40000181
+DefaultValue=$NODEID+0x40000187
 ParameterValue=
 PDOMapping=0
 
@@ -1526,7 +1528,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=rw
-DefaultValue=$NODEID+0x40000281
+DefaultValue=$NODEID+0x40000287
 ParameterValue=
 PDOMapping=0
 
@@ -1599,7 +1601,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=rw
-DefaultValue=$NODEID+0x40000381
+DefaultValue=$NODEID+0x40000387
 ParameterValue=
 PDOMapping=0
 
@@ -1672,7 +1674,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=rw
-DefaultValue=$NODEID+0x40000481
+DefaultValue=$NODEID+0x40000487
 ParameterValue=
 PDOMapping=0
 
@@ -1862,7 +1864,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=rw
-DefaultValue=0x21020020
+DefaultValue=0x60760020
 ParameterValue=
 PDOMapping=0
 
@@ -2063,7 +2065,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=rw
-DefaultValue=0x21000020
+DefaultValue=0x60790020
 ParameterValue=
 PDOMapping=0
 
@@ -2243,12 +2245,34 @@ DefaultValue=1000
 ParameterValue=
 PDOMapping=1
 
+[6076]
+ParameterName=Motor rated torque
+Denotation=
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
+AccessType=ro
+DefaultValue=0
+ParameterValue=
+PDOMapping=1
+
 [6077]
 ParameterName=Torque Actual Value
 Denotation=
 ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0003
+AccessType=ro
+DefaultValue=0
+ParameterValue=
+PDOMapping=1
+
+[6079]
+ParameterName=DC link circuit voltage
+Denotation=
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0007
 AccessType=ro
 DefaultValue=0
 ParameterValue=
@@ -2321,11 +2345,9 @@ ParameterValue=
 PDOMapping=1
 
 [ManufacturerObjects]
-SupportedObjects=4
+SupportedObjects=2
 1=0x2010
-2=0x2100
-3=0x2101
-4=0x2102
+2=0x2101
 
 [2010]
 ParameterName=Trajectory Inertia
@@ -2338,34 +2360,12 @@ DefaultValue=0
 ParameterValue=
 PDOMapping=1
 
-[2100]
-ParameterName=Bus Voltage
-Denotation=
-ObjectType=0x7
-;StorageLocation=RAM
-DataType=0x0008
-AccessType=ro
-DefaultValue=0
-ParameterValue=
-PDOMapping=1
-
 [2101]
 ParameterName=Bus current
 Denotation=
 ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0008
-AccessType=ro
-DefaultValue=0
-ParameterValue=
-PDOMapping=1
-
-[2102]
-ParameterName=Max Rated Torque
-Denotation=
-ObjectType=0x7
-;StorageLocation=RAM
-DataType=0x0007
 AccessType=ro
 DefaultValue=0
 ParameterValue=

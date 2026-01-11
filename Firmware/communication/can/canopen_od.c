@@ -1180,9 +1180,9 @@ const struct co_sdev odrive_co = {
 			.max = { .u32 = CO_UNSIGNED32_MAX },
 #endif
 #if !LELY_NO_CO_OBJ_DEFAULT
-			.def = { .u32 = 0x00000202lu },
+			.def = { .u32 = 0x00000208lu },
 #endif
-			.val = { .u32 = 0x00000202lu },
+			.val = { .u32 = 0x00000208lu },
 			.access = CO_ACCESS_RW,
 			.pdo_mapping = 0,
 			.flags = 0
@@ -1258,9 +1258,9 @@ const struct co_sdev odrive_co = {
 			.max = { .u32 = CO_UNSIGNED32_MAX },
 #endif
 #if !LELY_NO_CO_OBJ_DEFAULT
-			.def = { .u32 = 0x00000302lu },
+			.def = { .u32 = 0x00000308lu },
 #endif
-			.val = { .u32 = 0x00000302lu },
+			.val = { .u32 = 0x00000308lu },
 			.access = CO_ACCESS_RW,
 			.pdo_mapping = 0,
 			.flags = 0
@@ -1336,9 +1336,9 @@ const struct co_sdev odrive_co = {
 			.max = { .u32 = CO_UNSIGNED32_MAX },
 #endif
 #if !LELY_NO_CO_OBJ_DEFAULT
-			.def = { .u32 = 0x00000402lu },
+			.def = { .u32 = 0x00000408lu },
 #endif
-			.val = { .u32 = 0x00000402lu },
+			.val = { .u32 = 0x00000408lu },
 			.access = CO_ACCESS_RW,
 			.pdo_mapping = 0,
 			.flags = 0
@@ -1414,9 +1414,9 @@ const struct co_sdev odrive_co = {
 			.max = { .u32 = CO_UNSIGNED32_MAX },
 #endif
 #if !LELY_NO_CO_OBJ_DEFAULT
-			.def = { .u32 = 0x00000502lu },
+			.def = { .u32 = 0x00000508lu },
 #endif
-			.val = { .u32 = 0x00000502lu },
+			.val = { .u32 = 0x00000508lu },
 			.access = CO_ACCESS_RW,
 			.pdo_mapping = 0,
 			.flags = 0
@@ -2136,9 +2136,9 @@ const struct co_sdev odrive_co = {
 			.max = { .u32 = CO_UNSIGNED32_MAX },
 #endif
 #if !LELY_NO_CO_OBJ_DEFAULT
-			.def = { .u32 = 0x40000182lu },
+			.def = { .u32 = 0x40000188lu },
 #endif
-			.val = { .u32 = 0x40000182lu },
+			.val = { .u32 = 0x40000188lu },
 			.access = CO_ACCESS_RW,
 			.pdo_mapping = 0,
 			.flags = 0
@@ -2248,9 +2248,9 @@ const struct co_sdev odrive_co = {
 			.max = { .u32 = CO_UNSIGNED32_MAX },
 #endif
 #if !LELY_NO_CO_OBJ_DEFAULT
-			.def = { .u32 = 0x40000282lu },
+			.def = { .u32 = 0x40000288lu },
 #endif
-			.val = { .u32 = 0x40000282lu },
+			.val = { .u32 = 0x40000288lu },
 			.access = CO_ACCESS_RW,
 			.pdo_mapping = 0,
 			.flags = 0
@@ -2360,9 +2360,9 @@ const struct co_sdev odrive_co = {
 			.max = { .u32 = CO_UNSIGNED32_MAX },
 #endif
 #if !LELY_NO_CO_OBJ_DEFAULT
-			.def = { .u32 = 0x40000382lu },
+			.def = { .u32 = 0x40000388lu },
 #endif
-			.val = { .u32 = 0x40000382lu },
+			.val = { .u32 = 0x40000388lu },
 			.access = CO_ACCESS_RW,
 			.pdo_mapping = 0,
 			.flags = 0
@@ -2472,9 +2472,9 @@ const struct co_sdev odrive_co = {
 			.max = { .u32 = CO_UNSIGNED32_MAX },
 #endif
 #if !LELY_NO_CO_OBJ_DEFAULT
-			.def = { .u32 = 0x40000482lu },
+			.def = { .u32 = 0x40000488lu },
 #endif
-			.val = { .u32 = 0x40000482lu },
+			.val = { .u32 = 0x40000488lu },
 			.access = CO_ACCESS_RW,
 			.pdo_mapping = 0,
 			.flags = 0
@@ -2762,9 +2762,9 @@ const struct co_sdev odrive_co = {
 			.max = { .u32 = CO_UNSIGNED32_MAX },
 #endif
 #if !LELY_NO_CO_OBJ_DEFAULT
-			.def = { .u32 = 0x21020020lu },
+			.def = { .u32 = 0x60760020lu },
 #endif
-			.val = { .u32 = 0x21020020lu },
+			.val = { .u32 = 0x60760020lu },
 			.access = CO_ACCESS_RW,
 			.pdo_mapping = 0,
 			.flags = 0
@@ -3067,9 +3067,9 @@ const struct co_sdev odrive_co = {
 			.max = { .u32 = CO_UNSIGNED32_MAX },
 #endif
 #if !LELY_NO_CO_OBJ_DEFAULT
-			.def = { .u32 = 0x21000020lu },
+			.def = { .u32 = 0x60790020lu },
 #endif
-			.val = { .u32 = 0x21000020lu },
+			.val = { .u32 = 0x60790020lu },
 			.access = CO_ACCESS_RW,
 			.pdo_mapping = 0,
 			.flags = 0
@@ -3220,31 +3220,6 @@ const struct co_sdev odrive_co = {
 		}}
 	}, {
 #if !LELY_NO_CO_OBJ_NAME
-		.name = CO_SDEV_STRING("Bus Voltage"),
-#endif
-		.idx = 0x2100,
-		.code = CO_OBJECT_VAR,
-		.nsub = 1,
-		.subs = (const struct co_ssub[]){{
-#if !LELY_NO_CO_OBJ_NAME
-			.name = CO_SDEV_STRING("Bus Voltage"),
-#endif
-			.subidx = 0x00,
-			.type = CO_DEFTYPE_REAL32,
-#if !LELY_NO_CO_OBJ_LIMITS
-			.min = { .r32 = CO_REAL32_MIN },
-			.max = { .r32 = CO_REAL32_MAX },
-#endif
-#if !LELY_NO_CO_OBJ_DEFAULT
-			.def = { .r32 = 0 },
-#endif
-			.val = { .r32 = 0 },
-			.access = CO_ACCESS_RO,
-			.pdo_mapping = 1,
-			.flags = 0
-		}}
-	}, {
-#if !LELY_NO_CO_OBJ_NAME
 		.name = CO_SDEV_STRING("Bus current"),
 #endif
 		.idx = 0x2101,
@@ -3264,31 +3239,6 @@ const struct co_sdev odrive_co = {
 			.def = { .r32 = 0 },
 #endif
 			.val = { .r32 = 0 },
-			.access = CO_ACCESS_RO,
-			.pdo_mapping = 1,
-			.flags = 0
-		}}
-	}, {
-#if !LELY_NO_CO_OBJ_NAME
-		.name = CO_SDEV_STRING("Max Rated Torque"),
-#endif
-		.idx = 0x2102,
-		.code = CO_OBJECT_VAR,
-		.nsub = 1,
-		.subs = (const struct co_ssub[]){{
-#if !LELY_NO_CO_OBJ_NAME
-			.name = CO_SDEV_STRING("Max Rated Torque"),
-#endif
-			.subidx = 0x00,
-			.type = CO_DEFTYPE_UNSIGNED32,
-#if !LELY_NO_CO_OBJ_LIMITS
-			.min = { .u32 = CO_UNSIGNED32_MIN },
-			.max = { .u32 = CO_UNSIGNED32_MAX },
-#endif
-#if !LELY_NO_CO_OBJ_DEFAULT
-			.def = { .u32 = CO_UNSIGNED32_MIN },
-#endif
-			.val = { .u32 = CO_UNSIGNED32_MIN },
 			.access = CO_ACCESS_RO,
 			.pdo_mapping = 1,
 			.flags = 0
@@ -3520,6 +3470,31 @@ const struct co_sdev odrive_co = {
 		}}
 	}, {
 #if !LELY_NO_CO_OBJ_NAME
+		.name = CO_SDEV_STRING("Motor rated torque"),
+#endif
+		.idx = 0x6076,
+		.code = CO_OBJECT_VAR,
+		.nsub = 1,
+		.subs = (const struct co_ssub[]){{
+#if !LELY_NO_CO_OBJ_NAME
+			.name = CO_SDEV_STRING("Motor rated torque"),
+#endif
+			.subidx = 0x00,
+			.type = CO_DEFTYPE_UNSIGNED32,
+#if !LELY_NO_CO_OBJ_LIMITS
+			.min = { .u32 = CO_UNSIGNED32_MIN },
+			.max = { .u32 = CO_UNSIGNED32_MAX },
+#endif
+#if !LELY_NO_CO_OBJ_DEFAULT
+			.def = { .u32 = CO_UNSIGNED32_MIN },
+#endif
+			.val = { .u32 = CO_UNSIGNED32_MIN },
+			.access = CO_ACCESS_RO,
+			.pdo_mapping = 1,
+			.flags = 0
+		}}
+	}, {
+#if !LELY_NO_CO_OBJ_NAME
 		.name = CO_SDEV_STRING("Torque Actual Value"),
 #endif
 		.idx = 0x6077,
@@ -3539,6 +3514,31 @@ const struct co_sdev odrive_co = {
 			.def = { .i16 = 0 },
 #endif
 			.val = { .i16 = 0 },
+			.access = CO_ACCESS_RO,
+			.pdo_mapping = 1,
+			.flags = 0
+		}}
+	}, {
+#if !LELY_NO_CO_OBJ_NAME
+		.name = CO_SDEV_STRING("DC link circuit voltage"),
+#endif
+		.idx = 0x6079,
+		.code = CO_OBJECT_VAR,
+		.nsub = 1,
+		.subs = (const struct co_ssub[]){{
+#if !LELY_NO_CO_OBJ_NAME
+			.name = CO_SDEV_STRING("DC link circuit voltage"),
+#endif
+			.subidx = 0x00,
+			.type = CO_DEFTYPE_UNSIGNED32,
+#if !LELY_NO_CO_OBJ_LIMITS
+			.min = { .u32 = CO_UNSIGNED32_MIN },
+			.max = { .u32 = CO_UNSIGNED32_MAX },
+#endif
+#if !LELY_NO_CO_OBJ_DEFAULT
+			.def = { .u32 = CO_UNSIGNED32_MIN },
+#endif
+			.val = { .u32 = CO_UNSIGNED32_MIN },
 			.access = CO_ACCESS_RO,
 			.pdo_mapping = 1,
 			.flags = 0

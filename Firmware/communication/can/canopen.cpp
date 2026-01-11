@@ -228,7 +228,7 @@ uint32_t CANopen::service_stack() {
 
     last_time_ = now;
 
-    return 5;  // Service every 5ms aka 200hz
+    return 50;  // Service every 50ms aka 20hz
 }
 
 // NMT command indication
@@ -750,7 +750,7 @@ void CANopen::prepare_tpdo1() {
     }
 }
 
-// Prepare TPDO2: Torque actual (0x6077) and Max Motor Rated Torque (0x2102)
+// Prepare TPDO2: Torque actual (0x6077) and Motor Rated Torque (0x6076)
 void CANopen::prepare_tpdo2() {
     if (!dev_) return;
 
@@ -771,7 +771,7 @@ void CANopen::prepare_tpdo2() {
 
     // Update Max Motor Rated Torque (mN.m)
     uint32_t motor_rated_torque = static_cast<co_unsigned32_t>(max_torque * 1000.0f);  // Convert to mN.m
-    sub = co_dev_find_sub(dev_, 0x2102, 0x00);
+    sub = co_dev_find_sub(dev_, 0x6076, 0x00);
     if (sub) {
         co_sub_set_val_u32(sub, motor_rated_torque);
     }
@@ -877,14 +877,14 @@ void CANopen::prepare_tpdo3() {
     }
 }
 
-// Prepare TPDO4: Bus voltage and current (0x2100, 0x2101)
+// Prepare TPDO4: Bus voltage and current (0x6079, 0x2101)
 void CANopen::prepare_tpdo4() {
     if (!dev_) return;
 
     // Update bus voltage
-    co_sub_t* sub = co_dev_find_sub(dev_, 0x2100, 0x00);
+    co_sub_t* sub = co_dev_find_sub(dev_, 0x6079, 0x00);
     if (sub) {
-        co_sub_set_val_r32(sub, vbus_voltage);
+        co_sub_set_val_u32(sub, static_cast<co_unsigned32_t>(vbus_voltage * 1000.0f));  // in mV
     }
 
     // Update bus current
