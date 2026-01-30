@@ -1492,9 +1492,9 @@ const struct co_sdev odrive_co = {
 			.max = { .u32 = CO_UNSIGNED32_MAX },
 #endif
 #if !LELY_NO_CO_OBJ_DEFAULT
-			.def = { .u32 = 0x607a0020lu },
+			.def = { .u32 = 0x60830020lu },
 #endif
-			.val = { .u32 = 0x607a0020lu },
+			.val = { .u32 = 0x60830020lu },
 			.access = CO_ACCESS_RW,
 			.pdo_mapping = 0,
 			.flags = 0
@@ -1509,9 +1509,9 @@ const struct co_sdev odrive_co = {
 			.max = { .u32 = CO_UNSIGNED32_MAX },
 #endif
 #if !LELY_NO_CO_OBJ_DEFAULT
-			.def = { .u32 = 0x60810020lu },
+			.def = { .u32 = 0x60840020lu },
 #endif
-			.val = { .u32 = 0x60810020lu },
+			.val = { .u32 = 0x60840020lu },
 			.access = CO_ACCESS_RW,
 			.pdo_mapping = 0,
 			.flags = 0
@@ -1653,9 +1653,9 @@ const struct co_sdev odrive_co = {
 			.max = { .u32 = CO_UNSIGNED32_MAX },
 #endif
 #if !LELY_NO_CO_OBJ_DEFAULT
-			.def = { .u32 = 0x60830020lu },
+			.def = { .u32 = 0x60810020lu },
 #endif
-			.val = { .u32 = 0x60830020lu },
+			.val = { .u32 = 0x60810020lu },
 			.access = CO_ACCESS_RW,
 			.pdo_mapping = 0,
 			.flags = 0
@@ -1670,9 +1670,9 @@ const struct co_sdev odrive_co = {
 			.max = { .u32 = CO_UNSIGNED32_MAX },
 #endif
 #if !LELY_NO_CO_OBJ_DEFAULT
-			.def = { .u32 = 0x60840020lu },
+			.def = { .u32 = 0x607a0020lu },
 #endif
-			.val = { .u32 = 0x60840020lu },
+			.val = { .u32 = 0x607a0020lu },
 			.access = CO_ACCESS_RW,
 			.pdo_mapping = 0,
 			.flags = 0
