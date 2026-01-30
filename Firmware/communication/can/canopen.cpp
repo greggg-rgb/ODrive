@@ -316,6 +316,7 @@ co_unsigned32_t CANopen::sdo_dn_607A(co_sub_t* sub, struct co_sdo_req* req, void
     // Set target position on axis
     Axis& axis = axes[0];  // TODO: multi-axis support
     axis.controller_.set_input_pos_and_steps(static_cast<float>(val.i32));
+    axis.controller_.input_pos_updated();
 
     co_sub_dn(sub, &val);
     co_val_fini(type, &val);
@@ -540,6 +541,9 @@ void CANopen::process_controlword(co_unsigned16_t controlword) {
             axis.requested_state_ = Axis::AXIS_STATE_IDLE;
             break;
     }
+
+    // Feed the watchdog when we received a control word
+    axis.watchdog_feed();
 }
 
 // Handle mode of operation change
@@ -636,31 +640,55 @@ void CANopen::tpdo_ind(co_tpdo_t* pdo, co_unsigned32_t ac, const void* ptr, size
     }
 }
 
-// Handle RPDO1: Position and velocity (0x607A, 0x6081)
+// Handle RPDO1: Profile acceleration/deceleration (0x6083, 0x6084)
 void CANopen::handle_rpdo1(const void* data, size_t n) {
     if (!dev_) return;
 
     Axis& axis = axes[0];
 
-    // Read target position from OD (updated by RPDO)
-    co_integer32_t target_pos = 0;
-    co_sub_t* sub = co_dev_find_sub(dev_, 0x607A, 0x00);
+    // Read profile acceleration
+    co_unsigned32_t profile_accel = 0;
+    co_sub_t* sub = co_dev_find_sub(dev_, 0x6083, 0x00);
     if (sub) {
-        target_pos = co_sub_get_val_i32(sub);
-        axis.controller_.set_input_pos_and_steps(static_cast<float>(target_pos));
+        profile_accel = co_sub_get_val_u32(sub);
+        axis.trap_traj_.config_.accel_limit = static_cast<float>(profile_accel) / 16383.0f;  // Convert ticks/s^2 (14 bit) to turns/s^2
     }
+
+    // Read profile deceleration
+    co_unsigned32_t profile_decel = 0;
+    sub = co_dev_find_sub(dev_, 0x6084, 0x00);
+    if (sub) {
+        profile_decel = co_sub_get_val_u32(sub);
+        axis.trap_traj_.config_.decel_limit = static_cast<float>(profile_decel) / 16383.0f;  // Convert ticks/s^2 (14 bit) to turns/s^2
+    }
+}
+
+// Handle RPDO2: Position and velocity (0x607A, 0x6081)
+void CANopen::handle_rpdo2(const void* data, size_t n) {
+    if (!dev_) return;
+
+    Axis& axis = axes[0];
 
     // Read profile velocity from OD
     co_unsigned32_t profile_vel = 0;
-    sub = co_dev_find_sub(dev_, 0x6081, 0x00);
+    co_sub_t* sub = co_dev_find_sub(dev_, 0x6081, 0x00);
     if (sub) {
         profile_vel = co_sub_get_val_u32(sub);
         axis.trap_traj_.config_.vel_limit = static_cast<float>(profile_vel) / 16383.0f;  // Convert ticks/s (14 bit) to turns/s
     }
+
+    // Read target position from OD (updated by RPDO)
+    co_integer32_t target_pos = 0;
+    sub = co_dev_find_sub(dev_, 0x607A, 0x00);
+    if (sub) {
+        target_pos = co_sub_get_val_i32(sub);
+        axis.controller_.set_input_pos_and_steps(static_cast<float>(target_pos));
+        axis.controller_.input_pos_updated();
+    }
 }
 
-// Handle RPDO2: Velocity and torque feedforward (0x60FF, 0x6071)
-void CANopen::handle_rpdo2(const void* data, size_t n) {
+// Handle RPDO3: Velocity and torque feedforward (0x60FF, 0x6071)
+void CANopen::handle_rpdo3(const void* data, size_t n) {
     if (!dev_) return;
 
     Axis& axis = axes[0];
@@ -680,29 +708,6 @@ void CANopen::handle_rpdo2(const void* data, size_t n) {
         target_torque = co_sub_get_val_i16(sub);
         float max_torque = axis.motor_.effective_current_lim() * axis.motor_.config_.torque_constant;
         axis.controller_.input_torque_ = max_torque * (static_cast<float>(target_torque) / 1000.0f);
-    }
-}
-
-// Handle RPDO3: Profile acceleration/deceleration (0x6083, 0x6084)
-void CANopen::handle_rpdo3(const void* data, size_t n) {
-    if (!dev_) return;
-
-    Axis& axis = axes[0];
-
-    // Read profile acceleration
-    co_unsigned32_t profile_accel = 0;
-    co_sub_t* sub = co_dev_find_sub(dev_, 0x6083, 0x00);
-    if (sub) {
-        profile_accel = co_sub_get_val_u32(sub);
-        axis.trap_traj_.config_.accel_limit = static_cast<float>(profile_accel) / 16383.0f;  // Convert ticks/s^2 (14 bit) to turns/s^2
-    }
-
-    // Read profile deceleration
-    co_unsigned32_t profile_decel = 0;
-    sub = co_dev_find_sub(dev_, 0x6084, 0x00);
-    if (sub) {
-        profile_decel = co_sub_get_val_u32(sub);
-        axis.trap_traj_.config_.decel_limit = static_cast<float>(profile_decel) / 16383.0f;  // Convert ticks/s^2 (14 bit) to turns/s^2
     }
 }
 
