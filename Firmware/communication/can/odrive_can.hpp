@@ -43,7 +43,7 @@ class ODriveCAN : public CanBusBase, public ODriveIntf::CanIntf {
     CANopen canopen_{this};
 
     osThreadId thread_id_;
-    const uint32_t stack_size_ = 1024;  // Bytes
+    const uint32_t stack_size_ = 4096;  // Bytes
 
    private:
     static const uint8_t kCanFifoNone = 0xff;

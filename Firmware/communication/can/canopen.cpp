@@ -233,8 +233,6 @@ uint32_t CANopen::service_stack() {
 
 // NMT command indication
 void CANopen::nmt_cs_ind(co_nmt_t* nmt, co_unsigned8_t cs, void* data) {
-    CANopen* self = get_self(data);
-
     switch (cs) {
         case CO_NMT_CS_START:
             // Entered operational state
@@ -257,8 +255,7 @@ void CANopen::nmt_cs_ind(co_nmt_t* nmt, co_unsigned8_t cs, void* data) {
 
             break;
         case CO_NMT_CS_RESET_COMM:
-            // Reset communication
-            self->renew_subscription();
+            // Do nothing
             break;
     }
 }
@@ -663,7 +660,7 @@ void CANopen::handle_rpdo1(const void* data, size_t n) {
     }
 }
 
-// Handle RPDO2: Position and velocity (0x607A, 0x6081)
+// Handle RPDO2: Profile velocity and target torque (0x6081, 0x6071)
 void CANopen::handle_rpdo2(const void* data, size_t n) {
     if (!dev_) return;
 
@@ -677,17 +674,17 @@ void CANopen::handle_rpdo2(const void* data, size_t n) {
         axis.trap_traj_.config_.vel_limit = static_cast<float>(profile_vel) / 16383.0f;  // Convert ticks/s (14 bit) to turns/s
     }
 
-    // Read target position from OD (updated by RPDO)
-    co_integer32_t target_pos = 0;
-    sub = co_dev_find_sub(dev_, 0x607A, 0x00);
+    // Read target torque from OD
+    co_integer16_t target_torque = 0;
+    sub = co_dev_find_sub(dev_, 0x6071, 0x00);
     if (sub) {
-        target_pos = co_sub_get_val_i32(sub);
-        axis.controller_.set_input_pos_and_steps(static_cast<float>(target_pos));
-        axis.controller_.input_pos_updated();
+        target_torque = co_sub_get_val_i16(sub);
+        float max_torque = axis.motor_.effective_current_lim() * axis.motor_.config_.torque_constant;
+        axis.controller_.input_torque_ = max_torque * (static_cast<float>(target_torque) / 1000.0f);
     }
 }
 
-// Handle RPDO3: Velocity and torque feedforward (0x60FF, 0x6071)
+// Handle RPDO3: Velocity target and position target (0x60FF, 0x607A)
 void CANopen::handle_rpdo3(const void* data, size_t n) {
     if (!dev_) return;
 
@@ -701,13 +698,13 @@ void CANopen::handle_rpdo3(const void* data, size_t n) {
         axis.controller_.input_vel_ = static_cast<float>(target_vel) / 16383.0f;  // Convert ticks/s (14 bit) to turns/s
     }
 
-    // Read target torque from OD
-    co_integer16_t target_torque = 0;
-    sub = co_dev_find_sub(dev_, 0x6071, 0x00);
+    // Read target position from OD (updated by RPDO)
+    co_integer32_t target_pos = 0;
+    sub = co_dev_find_sub(dev_, 0x607A, 0x00);
     if (sub) {
-        target_torque = co_sub_get_val_i16(sub);
-        float max_torque = axis.motor_.effective_current_lim() * axis.motor_.config_.torque_constant;
-        axis.controller_.input_torque_ = max_torque * (static_cast<float>(target_torque) / 1000.0f);
+        target_pos = co_sub_get_val_i32(sub);
+        axis.controller_.set_input_pos_and_steps(static_cast<float>(target_pos));
+        axis.controller_.input_pos_updated();
     }
 }
 
