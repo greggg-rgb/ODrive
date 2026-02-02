@@ -670,6 +670,11 @@ void CANopen::process_controlword(co_unsigned16_t controlword) {
     // Store for next edge detection
     last_controlword_ = controlword;
 
+    if (axis.requested_state_ != Axis::AXIS_STATE_IDLE && axis.current_state_ != Axis::AXIS_STATE_CLOSED_LOOP_CONTROL) {
+        // The motor is most likely not ready to be enabled and switched on
+        return;
+    }
+
     // State machine (bits 0-3)
     uint8_t cmd = controlword & 0x000F;
 
