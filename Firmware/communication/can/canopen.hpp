@@ -133,26 +133,19 @@ class CANopen {
     static co_unsigned32_t sdo_dn_6071(co_sub_t* sub, struct co_sdo_req* req, void* data);
     static co_unsigned32_t sdo_dn_6072(co_sub_t* sub, struct co_sdo_req* req, void* data);
     static co_unsigned32_t sdo_dn_6060(co_sub_t* sub, struct co_sdo_req* req, void* data);
+    static co_unsigned32_t sdo_dn_6081(co_sub_t* sub, struct co_sdo_req* req, void* data);
+    static co_unsigned32_t sdo_dn_6083(co_sub_t* sub, struct co_sdo_req* req, void* data);
+    static co_unsigned32_t sdo_dn_6084(co_sub_t* sub, struct co_sdo_req* req, void* data);
 
     static co_unsigned32_t sdo_up_603F(const co_sub_t* sub, struct co_sdo_req* req, void* data);
     static co_unsigned32_t sdo_up_6041(const co_sub_t* sub, struct co_sdo_req* req, void* data);
     static co_unsigned32_t sdo_up_6064(const co_sub_t* sub, struct co_sdo_req* req, void* data);
     static co_unsigned32_t sdo_up_606C(const co_sub_t* sub, struct co_sdo_req* req, void* data);
     static co_unsigned32_t sdo_up_6077(const co_sub_t* sub, struct co_sdo_req* req, void* data);
+    static co_unsigned32_t sdo_up_6061(const co_sub_t* sub, struct co_sdo_req* req, void* data);
+    static co_unsigned32_t sdo_up_6079(const co_sub_t* sub, struct co_sdo_req* req, void* data);
+    static co_unsigned32_t sdo_up_2101(const co_sub_t* sub, struct co_sdo_req* req, void* data);
 
-    // PDO handling
-    void handle_rpdo1(const void* data, size_t n);
-    void handle_rpdo2(const void* data, size_t n);
-    void handle_rpdo3(const void* data, size_t n);
-    void handle_rpdo4(const void* data, size_t n);
-
-    void prepare_tpdo1();
-    void prepare_tpdo2();
-    void prepare_tpdo3();
-    void prepare_tpdo4();
-
-    // Update functions
-    void update_od_from_axis();
     void process_controlword(co_unsigned16_t controlword);
     void handle_mode_change(co_integer8_t mode);
 

@@ -9,7 +9,7 @@ const struct co_sdev odrive_co = {
 	.vendor_id = 0x00000000,
 	.product_name = CO_SDEV_STRING("ODrive-Custom"),
 	.product_code = 0x00000001,
-	.revision = 0x00000000,
+	.revision = 0x00000001,
 	.order_code = NULL,
 	.baud = 0
 		| CO_BAUD_500,
@@ -976,7 +976,7 @@ const struct co_sdev odrive_co = {
 #if !LELY_NO_CO_OBJ_DEFAULT
 			.def = { .u32 = 0x00000001lu },
 #endif
-			.val = { .u32 = CO_UNSIGNED32_MIN },
+			.val = { .u32 = 0x00000001lu },
 			.access = CO_ACCESS_RO,
 			.pdo_mapping = 0,
 			.flags = 0
