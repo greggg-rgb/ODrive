@@ -187,32 +187,92 @@ bool CANopen::init() {
     sub = co_dev_find_sub(dev_, 0x2101, 0x00);
     if (sub) co_sub_set_up_ind(sub, &sdo_up_2101, this);
 
-    // // Setup RPDO indication callbacks
-    // for (int i = 1; i <= 4; i++) {
-    //     co_rpdo_t* rpdo = co_nmt_get_rpdo(nmt_, i);
-    //     if (rpdo) {
-    //         co_rpdo_set_ind(rpdo, &rpdo_ind, this);
-    //     }
-    // }
-
-    // // Setup TPDO indication callbacks
-    // for (int i = 1; i <= 4; i++) {
-    //     co_tpdo_t* tpdo = co_nmt_get_tpdo(nmt_, i);
-    //     if (tpdo) {
-    //         co_tpdo_set_ind(tpdo, &tpdo_ind, this);
-    //     }
-    // }
-
-    // Subscribe to all CAN messages
-    MsgIdFilterSpecs filter;
-    filter.id = (uint16_t)0;
-    filter.mask = 0;  // Accept all
-
     auto callback = [](void* ctx, const can_Message_t& msg) {
         static_cast<CANopen*>(ctx)->on_can_message(msg);
     };
 
-    if (!canbus_->subscribe(filter, callback, this, &subscription_handle_)) {
+    // Filter 1: For broadcast traffics (SYNC, NMT)
+    // Matches: (ID & 0x7F) == 0x00
+    MsgIdFilterSpecs global_filter;
+    global_filter.id = (uint16_t)0;
+    global_filter.mask = (uint16_t)0x700;
+
+    if (!canbus_->subscribe(global_filter, callback, this, &global_subscription_handle_)) {
+        co_nmt_destroy(nmt_);
+        co_dev_destroy(dev_);
+        can_net_destroy(net_);
+        return false;
+    }
+
+    // Filter 2: SDO Request (0x600 + node_id)
+    MsgIdFilterSpecs sdo_filter;
+    sdo_filter.id = (uint16_t)(0x600 | (node_id_ & 0x7F));
+    sdo_filter.mask = (uint16_t)0x7FF;
+
+    if (!canbus_->subscribe(sdo_filter, callback, this, &sdo_subscription_handle_)) {
+        canbus_->unsubscribe(global_subscription_handle_);
+        co_nmt_destroy(nmt_);
+        co_dev_destroy(dev_);
+        can_net_destroy(net_);
+        return false;
+    }
+
+    // Filter 3: RPDO1 (0x200 + node_id)
+    MsgIdFilterSpecs rpdo1_filter;
+    rpdo1_filter.id = (uint16_t)(0x200 | (node_id_ & 0x7F));
+    rpdo1_filter.mask = (uint16_t)0x7FF;
+
+    if (!canbus_->subscribe(rpdo1_filter, callback, this, &rpdo1_subscription_handle_)) {
+        canbus_->unsubscribe(global_subscription_handle_);
+        canbus_->unsubscribe(sdo_subscription_handle_);
+        co_nmt_destroy(nmt_);
+        co_dev_destroy(dev_);
+        can_net_destroy(net_);
+        return false;
+    }
+
+    // Filter 4: RPDO2 (0x300 + node_id)
+    MsgIdFilterSpecs rpdo2_filter;
+    rpdo2_filter.id = (uint16_t)(0x300 | (node_id_ & 0x7F));
+    rpdo2_filter.mask = (uint16_t)0x7FF;
+
+    if (!canbus_->subscribe(rpdo2_filter, callback, this, &rpdo2_subscription_handle_)) {
+        canbus_->unsubscribe(global_subscription_handle_);
+        canbus_->unsubscribe(sdo_subscription_handle_);
+        canbus_->unsubscribe(rpdo1_subscription_handle_);
+        co_nmt_destroy(nmt_);
+        co_dev_destroy(dev_);
+        can_net_destroy(net_);
+        return false;
+    }
+
+    // Filter 5: RPDO3 (0x400 + node_id)
+    MsgIdFilterSpecs rpdo3_filter;
+    rpdo3_filter.id = (uint16_t)(0x400 | (node_id_ & 0x7F));
+    rpdo3_filter.mask = (uint16_t)0x7FF;
+
+    if (!canbus_->subscribe(rpdo3_filter, callback, this, &rpdo3_subscription_handle_)) {
+        canbus_->unsubscribe(global_subscription_handle_);
+        canbus_->unsubscribe(sdo_subscription_handle_);
+        canbus_->unsubscribe(rpdo1_subscription_handle_);
+        canbus_->unsubscribe(rpdo2_subscription_handle_);
+        co_nmt_destroy(nmt_);
+        co_dev_destroy(dev_);
+        can_net_destroy(net_);
+        return false;
+    }
+
+    // Filter 6: RPDO4 (0x500 + node_id)
+    MsgIdFilterSpecs rpdo4_filter;
+    rpdo4_filter.id = (uint16_t)(0x500 | (node_id_ & 0x7F));
+    rpdo4_filter.mask = (uint16_t)0x7FF;
+
+    if (!canbus_->subscribe(rpdo4_filter, callback, this, &rpdo4_subscription_handle_)) {
+        canbus_->unsubscribe(global_subscription_handle_);
+        canbus_->unsubscribe(sdo_subscription_handle_);
+        canbus_->unsubscribe(rpdo1_subscription_handle_);
+        canbus_->unsubscribe(rpdo2_subscription_handle_);
+        canbus_->unsubscribe(rpdo3_subscription_handle_);
         co_nmt_destroy(nmt_);
         co_dev_destroy(dev_);
         can_net_destroy(net_);
@@ -225,9 +285,34 @@ bool CANopen::init() {
 
 bool CANopen::renew_subscription() {
     // Re-initialize everything
-    if (subscription_handle_) {
-        canbus_->unsubscribe(subscription_handle_);
-        subscription_handle_ = nullptr;
+    if (global_subscription_handle_) {
+        canbus_->unsubscribe(global_subscription_handle_);
+        global_subscription_handle_ = nullptr;
+    }
+
+    if (sdo_subscription_handle_) {
+        canbus_->unsubscribe(sdo_subscription_handle_);
+        sdo_subscription_handle_ = nullptr;
+    }
+
+    if (rpdo1_subscription_handle_) {
+        canbus_->unsubscribe(rpdo1_subscription_handle_);
+        rpdo1_subscription_handle_ = nullptr;
+    }
+
+    if (rpdo2_subscription_handle_) {
+        canbus_->unsubscribe(rpdo2_subscription_handle_);
+        rpdo2_subscription_handle_ = nullptr;
+    }
+
+    if (rpdo3_subscription_handle_) {
+        canbus_->unsubscribe(rpdo3_subscription_handle_);
+        rpdo3_subscription_handle_ = nullptr;
+    }
+
+    if (rpdo4_subscription_handle_) {
+        canbus_->unsubscribe(rpdo4_subscription_handle_);
+        rpdo4_subscription_handle_ = nullptr;
     }
 
     shutdown();

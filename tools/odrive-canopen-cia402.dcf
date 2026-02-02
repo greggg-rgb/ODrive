@@ -1,5 +1,5 @@
 [FileInfo]
-FileName=odrive-canopen.dcf
+FileName=odrive-canopen-cia402.dcf
 FileVersion=1
 FileRevision=1
 LastEDS=
@@ -8,8 +8,8 @@ Description=
 CreationTime=12:33AM
 CreationDate=01-07-2026
 CreatedBy=
-ModificationTime=4:09AM
-ModificationDate=02-01-2026
+ModificationTime=10:51PM
+ModificationDate=02-02-2026
 ModifiedBy=
 
 [DeviceInfo]
@@ -49,7 +49,7 @@ Dummy0007=0
 Lines=0
 
 [DeviceComissioning]
-NodeID=2
+NodeID=1
 NodeName=
 Baudrate=0
 NetNumber=0
@@ -826,7 +826,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=rw
-DefaultValue=$NODEID+0x207
+DefaultValue=$NODEID+0x200
 ParameterValue=
 PDOMapping=0
 
@@ -877,7 +877,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=rw
-DefaultValue=$NODEID+0x307
+DefaultValue=$NODEID+0x300
 ParameterValue=
 PDOMapping=0
 
@@ -928,7 +928,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=rw
-DefaultValue=$NODEID+0x407
+DefaultValue=$NODEID+0x400
 ParameterValue=
 PDOMapping=0
 
@@ -979,7 +979,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=rw
-DefaultValue=$NODEID+0x507
+DefaultValue=$NODEID+0x500
 ParameterValue=
 PDOMapping=0
 
@@ -1454,7 +1454,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=rw
-DefaultValue=$NODEID+0x40000187
+DefaultValue=$NODEID+0x40000180
 ParameterValue=
 PDOMapping=0
 
@@ -1527,7 +1527,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=rw
-DefaultValue=$NODEID+0x40000287
+DefaultValue=$NODEID+0x40000280
 ParameterValue=
 PDOMapping=0
 
@@ -1600,7 +1600,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=rw
-DefaultValue=$NODEID+0x40000387
+DefaultValue=$NODEID+0x40000380
 ParameterValue=
 PDOMapping=0
 
@@ -1673,7 +1673,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=rw
-DefaultValue=$NODEID+0x40000487
+DefaultValue=$NODEID+0x40000480
 ParameterValue=
 PDOMapping=0
 

@@ -15,7 +15,7 @@
         <ProfileTechnology>CANopen</ProfileTechnology>
       </ISO15745Reference>
     </ProfileHeader>
-    <ProfileBody xmlns:q1="http://www.canopen.org/xml/1.1" xsi:type="q1:ProfileBody_Device_CANopen" formatName="CANopen" formatVersion="1.0" fileName="odrive-canopen.xdd" fileCreator="" fileCreationDate="2026-01-07" fileCreationTime="00:33:01.0000000+07:00" fileModifiedBy="" fileModificationDate="2026-02-01" fileModificationTime="04:09:24.5091380+07:00" fileVersion="1" supportedLanguages="en" xmlns="">
+    <ProfileBody xmlns:q1="http://www.canopen.org/xml/1.1" xsi:type="q1:ProfileBody_Device_CANopen" formatName="CANopen" formatVersion="1.0" fileName="odrive-canopen-cia402.xdd" fileCreator="" fileCreationDate="2026-01-07" fileCreationTime="00:33:01.0000000+07:00" fileModifiedBy="" fileModificationDate="2026-02-02" fileModificationTime="22:52:27.1613140+07:00" fileVersion="1" supportedLanguages="en" xmlns="">
       <q1:DeviceIdentity>
         <q1:vendorName>None</q1:vendorName>
         <q1:vendorID>0x0000</q1:vendorID>
@@ -1207,7 +1207,7 @@ The life time factor multiplied with the guard time gives the life time for the 
           <q1:parameter uniqueID="UID_SUB_140001" access="readWrite">
             <label lang="en">COB-ID used by RPDO</label>
             <UDINT />
-            <q1:defaultValue value="$NODEID+0x207" />
+            <q1:defaultValue value="$NODEID+0x200" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_SUB_140002" access="readWrite">
             <label lang="en">Transmission type</label>
@@ -1242,7 +1242,7 @@ The life time factor multiplied with the guard time gives the life time for the 
           <q1:parameter uniqueID="UID_SUB_140101" access="readWrite">
             <label lang="en">COB-ID used by RPDO</label>
             <UDINT />
-            <q1:defaultValue value="$NODEID+0x307" />
+            <q1:defaultValue value="$NODEID+0x300" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_SUB_140102" access="readWrite">
             <label lang="en">Transmission type</label>
@@ -1277,7 +1277,7 @@ The life time factor multiplied with the guard time gives the life time for the 
           <q1:parameter uniqueID="UID_SUB_140201" access="readWrite">
             <label lang="en">COB-ID used by RPDO</label>
             <UDINT />
-            <q1:defaultValue value="$NODEID+0x407" />
+            <q1:defaultValue value="$NODEID+0x400" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_SUB_140202" access="readWrite">
             <label lang="en">Transmission type</label>
@@ -1312,7 +1312,7 @@ The life time factor multiplied with the guard time gives the life time for the 
           <q1:parameter uniqueID="UID_SUB_140301" access="readWrite">
             <label lang="en">COB-ID used by RPDO</label>
             <UDINT />
-            <q1:defaultValue value="$NODEID+0x507" />
+            <q1:defaultValue value="$NODEID+0x500" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_SUB_140302" access="readWrite">
             <label lang="en">Transmission type</label>
@@ -1581,7 +1581,7 @@ The life time factor multiplied with the guard time gives the life time for the 
           <q1:parameter uniqueID="UID_SUB_180001" access="readWrite">
             <label lang="en">COB-ID used by TPDO</label>
             <UDINT />
-            <q1:defaultValue value="$NODEID+0x40000187" />
+            <q1:defaultValue value="$NODEID+0x40000180" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_SUB_180002" access="readWrite">
             <label lang="en">Transmission type</label>
@@ -1632,7 +1632,7 @@ The life time factor multiplied with the guard time gives the life time for the 
           <q1:parameter uniqueID="UID_SUB_180101" access="readWrite">
             <label lang="en">COB-ID used by TPDO</label>
             <UDINT />
-            <q1:defaultValue value="$NODEID+0x40000287" />
+            <q1:defaultValue value="$NODEID+0x40000280" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_SUB_180102" access="readWrite">
             <label lang="en">Transmission type</label>
@@ -1683,7 +1683,7 @@ The life time factor multiplied with the guard time gives the life time for the 
           <q1:parameter uniqueID="UID_SUB_180201" access="readWrite">
             <label lang="en">COB-ID used by TPDO</label>
             <UDINT />
-            <q1:defaultValue value="$NODEID+0x40000387" />
+            <q1:defaultValue value="$NODEID+0x40000380" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_SUB_180202" access="readWrite">
             <label lang="en">Transmission type</label>
@@ -1734,7 +1734,7 @@ The life time factor multiplied with the guard time gives the life time for the 
           <q1:parameter uniqueID="UID_SUB_180301" access="readWrite">
             <label lang="en">COB-ID used by TPDO</label>
             <UDINT />
-            <q1:defaultValue value="$NODEID+0x40000487" />
+            <q1:defaultValue value="$NODEID+0x40000480" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_SUB_180302" access="readWrite">
             <label lang="en">Transmission type</label>
@@ -2160,7 +2160,7 @@ The commanded speed for the motor in tick/s. Used only when 6060h = 3 (Profile V
         <ProfileTechnology>CANopen</ProfileTechnology>
       </ISO15745Reference>
     </ProfileHeader>
-    <ProfileBody xmlns:q2="http://www.canopen.org/xml/1.1" xsi:type="q2:ProfileBody_CommunicationNetwork_CANopen" formatName="CANopen" formatVersion="1.0" fileName="odrive-canopen.xdd" fileCreator="" fileCreationDate="2026-01-07" fileCreationTime="00:33:01.0000000+07:00" fileModificationDate="2026-02-01" fileModificationTime="04:09:24.5091380+07:00" fileVersion="1" supportedLanguages="en" xmlns="">
+    <ProfileBody xmlns:q2="http://www.canopen.org/xml/1.1" xsi:type="q2:ProfileBody_CommunicationNetwork_CANopen" formatName="CANopen" formatVersion="1.0" fileName="odrive-canopen-cia402.xdd" fileCreator="" fileCreationDate="2026-01-07" fileCreationTime="00:33:01.0000000+07:00" fileModificationDate="2026-02-02" fileModificationTime="22:52:27.1613140+07:00" fileVersion="1" supportedLanguages="en" xmlns="">
       <ApplicationLayers>
         <q2:CANopenObjectList>
           <CANopenObject index="1000" name="Device type" objectType="7" PDOmapping="no" uniqueIDRef="UID_OBJ_1000" />

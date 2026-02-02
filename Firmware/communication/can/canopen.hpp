@@ -122,10 +122,6 @@ class CANopen {
     static int can_send_func(const struct can_msg* msg, void* data);
     static void nmt_cs_ind(co_nmt_t* nmt, co_unsigned8_t cs, void* data);
 
-    // PDO callbacks
-    static void rpdo_ind(co_rpdo_t* pdo, co_unsigned32_t ac, const void* ptr, size_t n, void* data);
-    static void tpdo_ind(co_tpdo_t* pdo, co_unsigned32_t ac, const void* ptr, size_t n, void* data);
-
     // SDO callbacks for specific objects
     static co_unsigned32_t sdo_dn_6040(co_sub_t* sub, struct co_sdo_req* req, void* data);
     static co_unsigned32_t sdo_dn_607A(co_sub_t* sub, struct co_sdo_req* req, void* data);
@@ -150,7 +146,13 @@ class CANopen {
     void handle_mode_change(co_integer8_t mode);
 
     CanBusBase* canbus_;
-    CanBusBase::CanSubscription* subscription_handle_;
+    CanBusBase::CanSubscription* sdo_subscription_handle_;
+    CanBusBase::CanSubscription* rpdo1_subscription_handle_;
+    CanBusBase::CanSubscription* rpdo2_subscription_handle_;
+    CanBusBase::CanSubscription* rpdo3_subscription_handle_;
+    CanBusBase::CanSubscription* rpdo4_subscription_handle_;
+    CanBusBase::CanSubscription* global_subscription_handle_;
+
     uint8_t node_id_ = 1;
 
     // Lely CO objects
