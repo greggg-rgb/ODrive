@@ -593,29 +593,30 @@ co_unsigned32_t CANopen::sdo_up_6041(const co_sub_t* sub, struct co_sdo_req* req
     Axis& axis = axes[0];
     co_unsigned16_t statusword = 0;
 
-    switch (axis.current_state_) {
-        case Axis::AXIS_STATE_IDLE:
-            statusword = make_statusword(STATE_READY_TO_SWITCH_ON);  // Ready to switch on
-            break;
-        case Axis::AXIS_STATE_CLOSED_LOOP_CONTROL:
-            statusword = make_statusword(STATE_OPERATION_ENABLED,
-                                         true,                                // voltage enabled
-                                         false,                               // no warning
-                                         axis.controller_.trajectory_done_);  // Operation enabled
-            break;
-        case Axis::AXIS_STATE_FULL_CALIBRATION_SEQUENCE:
-        case Axis::AXIS_STATE_MOTOR_CALIBRATION:
-        case Axis::AXIS_STATE_ENCODER_INDEX_SEARCH:
-        case Axis::AXIS_STATE_ENCODER_OFFSET_CALIBRATION:
-            statusword = make_statusword(STATE_SWITCH_ON_DISABLED);  // Switch on disabled (calibrating)
-            break;
-        default:
-            if (axis.error_ != Axis::ERROR_NONE) {
-                statusword = make_statusword(STATE_FAULT, false);  // Fault
-            } else {
+    if (axis.error_ != Axis::ERROR_NONE) {
+        statusword = make_statusword(STATE_FAULT, false);  // Fault
+
+    } else {
+        switch (axis.current_state_) {
+            case Axis::AXIS_STATE_IDLE:
+                statusword = make_statusword(STATE_READY_TO_SWITCH_ON);  // Ready to switch on
+                break;
+            case Axis::AXIS_STATE_CLOSED_LOOP_CONTROL:
+                statusword = make_statusword(STATE_OPERATION_ENABLED,
+                                             true,                                // voltage enabled
+                                             false,                               // no warning
+                                             axis.controller_.trajectory_done_);  // Operation enabled
+                break;
+            case Axis::AXIS_STATE_FULL_CALIBRATION_SEQUENCE:
+            case Axis::AXIS_STATE_MOTOR_CALIBRATION:
+            case Axis::AXIS_STATE_ENCODER_INDEX_SEARCH:
+            case Axis::AXIS_STATE_ENCODER_OFFSET_CALIBRATION:
+                statusword = make_statusword(STATE_SWITCH_ON_DISABLED);  // Switch on disabled (calibrating)
+                break;
+            default:
                 statusword = make_statusword(STATE_SWITCH_ON_DISABLED);  // Switch on disabled
-            }
-            break;
+                break;
+        }
     }
 
     // Add warning bit if there are non-critical errors
